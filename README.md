@@ -10,7 +10,8 @@ I created this to apply afterwards, NLP on the results.
 - Segmenting out the replays that are included in the email, and segments each replay to above mentioned three parts.
 - Process replay headers, to extract information like sender, date, and subject, etc...
 - Performs special HTML tag cleaning, to remove styles and other visual noise, but to keep the structure. This saves a lot of space if you store the segmentation results in a database.
-- Extracts text, cleans it from bad characters, and converts all characters to readable ones, such that original email visual structure is preserved.
+- Extracts pure text, cleans it from bad characters, and converts all characters to readable ones, such that original email visual structure is preserved.
+- Detecting and excluding repeated results (chunks), so similar signatures or replays, will not consume memory or space (done by calculating hashes).
 - Some support for mail clients of different languages.
 - Parallelizing segmentation procedure, for better performance with large amounts of emails.
 
