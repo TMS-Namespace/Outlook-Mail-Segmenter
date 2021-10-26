@@ -42,7 +42,7 @@ var email = folder.Emails[10];
 var toEmailAddress = email.Header.To;
 // get email's cleaned HTML
 // any segmented part of the email, including its body, is 
-// represented buy EmailChunk object, that has HTML as well 
+// represented by EmailChunk object, that has HTML as well 
 // as Text properties
 var text = email.Body.HTML;
 
