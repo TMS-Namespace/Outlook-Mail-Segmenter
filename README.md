@@ -105,6 +105,8 @@ However, there are places for more optimization. And of course, turning some opt
 
 # Dependencies
 
-> Microsoft.Office.Interop.Outlook.dll, usually installed along with MS Office, and can be found in GAC.
+> Microsoft.Office.Interop.Outlook.dll
+
+ usually installed along with MS Office, and can be found in GAC.
 
 > HTMLAgility Nuget Package.
