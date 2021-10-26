@@ -2,7 +2,7 @@
 
 This is a small library, that does naive processing of the emails stored in Microsoft Office Outlook, to segment out messages parts, like its header, body, signature, and replays.
 
-I created this to apply further on, NLP processing on emails.
+I created this to apply afterwards, NLP on the results.
 
 # Features
 
