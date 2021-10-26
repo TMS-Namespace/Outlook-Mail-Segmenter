@@ -12,7 +12,7 @@ I created this to apply further on, NLP processing on emails.
 - Performs special HTML tag cleaning, to remove styles and other visual noise, but to keep the structure. This saves a lot of space if you store the segmentation results in a database.
 - Extracts text, cleans it from bad characters, and converts all characters to readable ones, such that original email visual structure is preserved.
 - Some support for mail clients of different languages.
-- Paralyzing segmentation procedure, for better performance with large amounts of emails.
+- Parallelizing segmentation procedure, for better performance with large amounts of emails.
 
 # Why Processing Replays?
 
