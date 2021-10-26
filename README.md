@@ -16,9 +16,9 @@ I created this to apply further on, NLP processing on emails.
 
 # Why Processing Replays?
 
-Processing replays may be needed for various reasons. Particularly, Outlook conversations (that returned by Outlook itself), are not enough, for example, to understand the whole context. 
+Processing replays may be needed for various reasons. Particularly, Outlook conversations (that returned by Outlook itself), are not always enough, for example, in case when we want to understand the whole message context. 
 
-For Instance, there is no guarantee that all of the replays in the given message, are also available in your Outlook inbox. This happens for example when a totally new message had been forwarded to you with all of the replays.
+For Instance, there is no guarantee that all of the replays in the given message, are also available in your Outlook inbox, through the conversations. This happens for example when a totally new message had been forwarded to you with all of the replays.
 
 # Usage
 
@@ -29,35 +29,35 @@ The below is pretty straightforward:
 Outlook.Connect();
 
 // define from where emails should be fetched.
-// choose an account or an attached to Outlook .pst 
-// file (all called EmailSources), and a folder
-var folder = Outlook.EmailStores[0]?.Folders[0]?
+// choose an account or a .pst file that loaded into the 
+// Outlook (all called EmailStores), and then a folder
+var folder = Outlook.Stores[0]?.Folders[0];
 // fetch and process first 100 emails
-folder.Emails.Fetch(0,99);
+folder.Emails.Fetch(0, 99);
 
 // lets get some email data
 // get 10th email
-var email = emails[10]
+var email = folder.Emails[10];
 // get sender's email address;
 var toEmailAddress = email.Header.To;
 // get email's cleaned HTML
 // any segmented part of the email, including its body, is 
-// represented but EmailChunk object, that has HTML as well 
+// represented buy EmailChunk object, that has HTML as well 
 // as Text properties
-var text =  email.Body.HTML;
+var text = email.Body.HTML;
 
 // get 3'rd replay
 var thirdReplay = email.Replays[3];
 // get replay signature text, if any found, by checking its 
 // body, which is EmailChunk object
-var replaySignatureText = thirdReplay.Signature?.Body?.Text;
-// the body can be null, if current signature is been 
+var replaySignatureText = thirdReplay.Signature?.Text;
+// the text property can be null, if current signature is been 
 // found in another email, and :
 // Outlook.CheckForIdenticalChunks = True, then we reference 
 // base email chunk for information as follows
-var replaySignatureText = thirdReplay.Signature?.Body?.BaseChunk.Body.Text;
+var replaySignatureText2 = thirdReplay.Signature?.BaseChunk?.Text;
 // parse and get all emails in the signature
-var replaySignatureEmails = thirdReplay.Signature?.Body.EmailAddresses;
+var replaySignatureEmails = thirdReplay.Signature?.EmailAddresses;
 ```
 
 There is also a bunch of options that can be tuned as per your needs, and affects the parsing performance:

@@ -51,7 +51,7 @@ namespace TMS.Libraries.OutlookMailSegmenter
         // Hide this property
         private new OutlookEmail ParentEmail { get; set; }
 
-        public List<EmailReplay> Repleys { get; private set; }
+        public List<EmailReplay> Replays { get; private set; }
 
         List<OutlookEmail> _Conversations;
 
@@ -115,10 +115,10 @@ namespace TMS.Libraries.OutlookMailSegmenter
                 // --- processes the rest of replays
                 for (int i = 1; i < replaysHTML.Count; i++)
                 {
-                    if (Repleys is null)
-                        Repleys = new List<EmailReplay>();
+                    if (Replays is null)
+                        Replays = new List<EmailReplay>();
 
-                    Repleys.Add(new EmailReplay(replaysHTML[i], this));
+                    Replays.Add(new EmailReplay(replaysHTML[i], this));
                 }
             }
 
