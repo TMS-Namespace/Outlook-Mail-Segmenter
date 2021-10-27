@@ -302,6 +302,8 @@ namespace TMS.Libraries.OutlookMailSegmenter
             res = Regex.Replace(res, @"&quot;", "\"");
             res = Regex.Replace(res, @"&apos;", "'");
 
+            res = Regex.Replace(res, @"[^\r]\n", Environment.NewLine);
+
             res = FixBadCharacters(res);
 
             return res.Trim();
