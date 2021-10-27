@@ -36,7 +36,6 @@ var folder = Outlook.Stores[0]?.Folders[0];
 // fetch and process first 100 emails
 folder.Emails.Fetch(0, 99);
 
-// lets get some email data
 // get 10th email
 var email = folder.Emails[10];
 // get sender's email address;
@@ -49,8 +48,7 @@ var text = email.Body.HTML;
 
 // get 3'rd replay
 var thirdReplay = email.Replays[3];
-// get replay signature text, if any found, by checking its 
-// body, which is EmailChunk object
+// get replay signature text, which is EmailChunk object
 var replaySignatureText = thirdReplay.Signature?.Text;
 // the text property can be null, if current signature is been 
 // found in another email, and :
