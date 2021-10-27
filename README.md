@@ -4,9 +4,9 @@ This is a small library, that performs naive processing of the emails stored in 
 
 I created this to apply afterwards, NLP on the results.
 
-# Features
+## Features
 
--  Segments each email into 3 parts: Header, Email Body, Signature. 
+- Segments each email into 3 parts: Header, Email Body, Signature.
 - Segmenting out the replays that are included in the email, and segments each replay to above mentioned three parts.
 - Process replay headers, to extract information like sender, date, subject, etc...
 - Performs special HTML tag cleaning, to remove styles and other visual noise, but to keep the structure. This saves a lot of space if you store the segmentation results in a database.
@@ -15,13 +15,13 @@ I created this to apply afterwards, NLP on the results.
 - Some support for mail clients of different languages.
 - Parallelizing segmentation procedure, for better performance with large amounts of emails.
 
-# Why Processing Replays?
+## Why Processing Replays?
 
-Processing replays may be needed for various reasons. Particularly, Outlook conversations (that returned by Outlook itself), are not always enough, for example, in case when we want to understand the whole message context. 
+Processing replays may be needed for various reasons. Particularly, Outlook conversations (that returned by Outlook itself), are not always enough, for example, in case when we want to understand the whole message context.
 
 For Instance, there is no guarantee that all of the replays in the given message, are also available in your Outlook inbox, through the conversations. This happens for example when a totally new message had been forwarded to you with all of the replays.
 
-# Usage
+## Usage
 
 The below is pretty straightforward:
 
@@ -86,7 +86,7 @@ Outlook.CheckForIdenticalChunks = True;
 Outlook.ProcessInParallel = True;
 ```
 
-# Accuracy
+## Accuracy
 
 **Do not expect to get perfect segmentation results.** Email segmentation is actually a very error-prone procedure, the reason is, that there are no standardized methods among different email clients (and even among different versions of the same client) to mark the replay, header, or signature sections, see for example [this answer](https://stackoverflow.com/a/279417).
 
@@ -96,16 +96,17 @@ For example, Outlook usually does wraps signatures with a div tag, however, some
 
 If segmentation accuracy is critical in your task, you will need to use more sophisticated approaches, particularly machine learning, for example, see [this paper](https://www.cs.cmu.edu/~wcohen/postscript/email-2004.pdf). However, you still can use this library to strip out the main mail text part, to process it further by ML. Moreover, there are even specialized companies that advertise WebAPI for email segmentation.
 
-# Performance
+## Performance
 
 In the current implementation, with all options on, it can process 1000 messages (including all replays, that can be 10-30 messages) in about 2 minutes, by using 6 core 9th Gen. Intel processor.
 
 However, there are places for more optimization. And of course, turning some options off may lead to significantly less processing time.
 
-# Dependencies
+## Dependencies
+It build with .Net Core 3.1, and :
 
-> Microsoft.Office.Interop.Outlook.dll
+> Microsoft.Office.Interop.Outlook.dll, v 15.0.4569.1507
 
- usually installed along with MS Office, and can be found in GAC.
+ usually installed along with MS Office, and can be found in GAC. If you will face problems with it and .Net Core, check out [this answer](https://stackoverflow.com/questions/58130446/net-core-3-0-and-ms-office-interop)
 
-> HTMLAgility Nuget Package.
+> HtmlAgilityPack Nuget Package, v 1.11.37
