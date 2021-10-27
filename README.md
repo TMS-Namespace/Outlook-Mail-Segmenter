@@ -98,7 +98,7 @@ If segmentation accuracy is critical in your task, you will need to use more sop
 
 ## Performance
 
-In the current implementation, with all options on, it can process 1000 messages (including all replays, that can be 10-30 messages) in about 2 minutes, by using 6 core 9th Gen. Intel processor.
+In the current implementation, with all options on, it can process 1000 messages (including all replays, that where in average 8 replays per message) in about half of a minute, by using 6 core 9th Gen. Intel processor.
 
 However, there are places for more optimization. And of course, turning some options off may lead to significantly less processing time.
 
