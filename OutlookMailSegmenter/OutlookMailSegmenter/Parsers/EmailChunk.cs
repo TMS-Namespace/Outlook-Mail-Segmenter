@@ -22,6 +22,8 @@ namespace TMS.Libraries.OutlookMailSegmenter
         /// <param name="isHTML">Determines if the passed string is text or HTML, so it will be treated differently.</param>
         internal EmailChunk(string chunk, bool isHTML = false)
         {
+            ID = Guid.NewGuid();
+
             HTML = (isHTML) ? CleanHTML(chunk) : chunk;
             Text = (isHTML) ? StripHTML(HTML) : FixBadCharacters(HTML);
         }
