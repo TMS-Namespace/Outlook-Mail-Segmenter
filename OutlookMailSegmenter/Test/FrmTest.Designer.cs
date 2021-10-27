@@ -53,25 +53,28 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             // 
             this.cbDataSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDataSource.FormattingEnabled = true;
-            this.cbDataSource.Location = new System.Drawing.Point(138, 74);
+            this.cbDataSource.Location = new System.Drawing.Point(123, 72);
+            this.cbDataSource.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbDataSource.Name = "cbDataSource";
-            this.cbDataSource.Size = new System.Drawing.Size(182, 21);
+            this.cbDataSource.Size = new System.Drawing.Size(212, 23);
             this.cbDataSource.TabIndex = 1;
             this.cbDataSource.SelectedIndexChanged += new System.EventHandler(this.cbDataSource_SelectedIndexChanged);
             // 
             // tvFolders
             // 
-            this.tvFolders.Location = new System.Drawing.Point(44, 114);
+            this.tvFolders.Location = new System.Drawing.Point(13, 114);
+            this.tvFolders.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tvFolders.Name = "tvFolders";
-            this.tvFolders.Size = new System.Drawing.Size(276, 440);
+            this.tvFolders.Size = new System.Drawing.Size(321, 507);
             this.tvFolders.TabIndex = 2;
             this.tvFolders.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvFolders_AfterSelect);
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(44, 31);
+            this.btnConnect.Location = new System.Drawing.Point(13, 23);
+            this.btnConnect.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(89, 23);
+            this.btnConnect.Size = new System.Drawing.Size(104, 27);
             this.btnConnect.TabIndex = 3;
             this.btnConnect.Text = "Connect...";
             this.btnConnect.UseVisualStyleBackColor = true;
@@ -80,60 +83,67 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(44, 81);
+            this.label1.Location = new System.Drawing.Point(13, 80);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 13);
+            this.label1.Size = new System.Drawing.Size(68, 15);
             this.label1.TabIndex = 4;
             this.label1.Text = "Email store:";
             // 
             // lbCount
             // 
             this.lbCount.AutoSize = true;
-            this.lbCount.Location = new System.Drawing.Point(397, 114);
+            this.lbCount.Location = new System.Drawing.Point(359, 120);
+            this.lbCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbCount.Name = "lbCount";
-            this.lbCount.Size = new System.Drawing.Size(65, 13);
+            this.lbCount.Size = new System.Drawing.Size(73, 15);
             this.lbCount.TabIndex = 5;
             this.lbCount.Text = "Email count:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(400, 167);
+            this.label3.Location = new System.Drawing.Point(359, 181);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 13);
+            this.label3.Size = new System.Drawing.Size(36, 15);
             this.label3.TabIndex = 6;
             this.label3.Text = "from:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(564, 167);
+            this.label4.Location = new System.Drawing.Point(547, 181);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(19, 13);
+            this.label4.Size = new System.Drawing.Size(21, 15);
             this.label4.TabIndex = 7;
             this.label4.Text = "to:";
             // 
             // tbFrom
             // 
-            this.tbFrom.Location = new System.Drawing.Point(441, 164);
+            this.tbFrom.Location = new System.Drawing.Point(403, 177);
+            this.tbFrom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbFrom.Name = "tbFrom";
-            this.tbFrom.Size = new System.Drawing.Size(100, 20);
+            this.tbFrom.Size = new System.Drawing.Size(116, 23);
             this.tbFrom.TabIndex = 8;
             this.tbFrom.Text = "1";
             // 
             // tbTo
             // 
-            this.tbTo.Location = new System.Drawing.Point(601, 167);
+            this.tbTo.Location = new System.Drawing.Point(576, 177);
+            this.tbTo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbTo.Name = "tbTo";
-            this.tbTo.Size = new System.Drawing.Size(100, 20);
+            this.tbTo.Size = new System.Drawing.Size(116, 23);
             this.tbTo.TabIndex = 8;
             this.tbTo.Text = "10";
             // 
             // btnFetch
             // 
-            this.btnFetch.Location = new System.Drawing.Point(403, 235);
+            this.btnFetch.Location = new System.Drawing.Point(359, 259);
+            this.btnFetch.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnFetch.Name = "btnFetch";
-            this.btnFetch.Size = new System.Drawing.Size(75, 23);
+            this.btnFetch.Size = new System.Drawing.Size(88, 27);
             this.btnFetch.TabIndex = 9;
             this.btnFetch.Text = "Fetch..";
             this.btnFetch.UseVisualStyleBackColor = true;
@@ -142,18 +152,20 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             // lbProgress
             // 
             this.lbProgress.AutoSize = true;
-            this.lbProgress.Location = new System.Drawing.Point(567, 244);
+            this.lbProgress.Location = new System.Drawing.Point(530, 265);
+            this.lbProgress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbProgress.Name = "lbProgress";
-            this.lbProgress.Size = new System.Drawing.Size(35, 13);
+            this.lbProgress.Size = new System.Drawing.Size(38, 15);
             this.lbProgress.TabIndex = 11;
             this.lbProgress.Text = "status";
             // 
             // lbConnect
             // 
             this.lbConnect.AutoSize = true;
-            this.lbConnect.Location = new System.Drawing.Point(177, 31);
+            this.lbConnect.Location = new System.Drawing.Point(168, 23);
+            this.lbConnect.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbConnect.Name = "lbConnect";
-            this.lbConnect.Size = new System.Drawing.Size(0, 13);
+            this.lbConnect.Size = new System.Drawing.Size(0, 15);
             this.lbConnect.TabIndex = 12;
             // 
             // chbProcessAllReplaes
@@ -161,9 +173,10 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             this.chbProcessAllReplaes.AutoSize = true;
             this.chbProcessAllReplaes.Checked = true;
             this.chbProcessAllReplaes.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbProcessAllReplaes.Location = new System.Drawing.Point(360, 476);
+            this.chbProcessAllReplaes.Location = new System.Drawing.Point(360, 310);
+            this.chbProcessAllReplaes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chbProcessAllReplaes.Name = "chbProcessAllReplaes";
-            this.chbProcessAllReplaes.Size = new System.Drawing.Size(120, 17);
+            this.chbProcessAllReplaes.Size = new System.Drawing.Size(126, 19);
             this.chbProcessAllReplaes.TabIndex = 13;
             this.chbProcessAllReplaes.Text = "Process All Replaes";
             this.chbProcessAllReplaes.UseVisualStyleBackColor = true;
@@ -174,9 +187,10 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             this.chbProcessSignitures.AutoSize = true;
             this.chbProcessSignitures.Checked = true;
             this.chbProcessSignitures.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbProcessSignitures.Location = new System.Drawing.Point(360, 499);
+            this.chbProcessSignitures.Location = new System.Drawing.Point(360, 337);
+            this.chbProcessSignitures.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chbProcessSignitures.Name = "chbProcessSignitures";
-            this.chbProcessSignitures.Size = new System.Drawing.Size(113, 17);
+            this.chbProcessSignitures.Size = new System.Drawing.Size(121, 19);
             this.chbProcessSignitures.TabIndex = 14;
             this.chbProcessSignitures.Text = "Process Signitures";
             this.chbProcessSignitures.UseVisualStyleBackColor = true;
@@ -187,9 +201,10 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             this.chbProcessHeaders.AutoSize = true;
             this.chbProcessHeaders.Checked = true;
             this.chbProcessHeaders.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbProcessHeaders.Location = new System.Drawing.Point(360, 522);
+            this.chbProcessHeaders.Location = new System.Drawing.Point(360, 363);
+            this.chbProcessHeaders.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chbProcessHeaders.Name = "chbProcessHeaders";
-            this.chbProcessHeaders.Size = new System.Drawing.Size(107, 17);
+            this.chbProcessHeaders.Size = new System.Drawing.Size(112, 19);
             this.chbProcessHeaders.TabIndex = 15;
             this.chbProcessHeaders.Text = "Process Headers";
             this.chbProcessHeaders.UseVisualStyleBackColor = true;
@@ -200,9 +215,10 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             this.chbProcessInParallel.AutoSize = true;
             this.chbProcessInParallel.Checked = true;
             this.chbProcessInParallel.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbProcessInParallel.Location = new System.Drawing.Point(542, 522);
+            this.chbProcessInParallel.Location = new System.Drawing.Point(572, 363);
+            this.chbProcessInParallel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chbProcessInParallel.Name = "chbProcessInParallel";
-            this.chbProcessInParallel.Size = new System.Drawing.Size(112, 17);
+            this.chbProcessInParallel.Size = new System.Drawing.Size(120, 19);
             this.chbProcessInParallel.TabIndex = 16;
             this.chbProcessInParallel.Text = "Process in Parallel";
             this.chbProcessInParallel.UseVisualStyleBackColor = true;
@@ -213,9 +229,10 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             this.chbCheckForIdenticalChunks.AutoSize = true;
             this.chbCheckForIdenticalChunks.Checked = true;
             this.chbCheckForIdenticalChunks.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbCheckForIdenticalChunks.Location = new System.Drawing.Point(542, 476);
+            this.chbCheckForIdenticalChunks.Location = new System.Drawing.Point(572, 310);
+            this.chbCheckForIdenticalChunks.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chbCheckForIdenticalChunks.Name = "chbCheckForIdenticalChunks";
-            this.chbCheckForIdenticalChunks.Size = new System.Drawing.Size(156, 17);
+            this.chbCheckForIdenticalChunks.Size = new System.Drawing.Size(169, 19);
             this.chbCheckForIdenticalChunks.TabIndex = 17;
             this.chbCheckForIdenticalChunks.Text = "Check for Identical chunks.";
             this.chbCheckForIdenticalChunks.UseVisualStyleBackColor = true;
@@ -223,9 +240,9 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             // 
             // FrmTest
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(779, 594);
+            this.ClientSize = new System.Drawing.Size(749, 638);
             this.Controls.Add(this.chbCheckForIdenticalChunks);
             this.Controls.Add(this.chbProcessInParallel);
             this.Controls.Add(this.chbProcessHeaders);
@@ -243,6 +260,7 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.tvFolders);
             this.Controls.Add(this.cbDataSource);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "FrmTest";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Segment Outlook Mail";

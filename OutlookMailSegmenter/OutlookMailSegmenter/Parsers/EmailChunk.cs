@@ -12,7 +12,7 @@ namespace TMS.Libraries.OutlookMailSegmenter
 {
     public class EmailChunk
     {
-        
+
         #region Init
 
         /// <summary>
@@ -313,21 +313,19 @@ namespace TMS.Libraries.OutlookMailSegmenter
             if (string.IsNullOrWhiteSpace(txt))
                 return string.Empty;
 
-            // replace non breaking spaces
-            var res = Regex.Replace(txt, @"\u00A0", " ");
+            // replace non breaking spaces, and other spaces
+            // see https://en.wikipedia.org/wiki/Non-breaking_space
+            var res = Regex.Replace(txt, @"(\u00A0|\u00a0|\u2007|\u202F|\u2060)", " ");
+
 
             // replace bad left/right quotations marks
-            res = Regex.Replace(res, @"\u2019\s*\u2018", "\"");
-            res = Regex.Replace(res, @"\u2018\s*\u2019", "\"");
+            res = Regex.Replace(res, @"((\u2019\s*\u2018)|(\u2018\s*\u2019))", "\"");
 
-            res = Regex.Replace(res, @"\u2019", "'");
-            res = Regex.Replace(res, @"\u2018", "'");
+            res = Regex.Replace(res, @"(\u2019|\u2018)", "'");
 
             // bad un-visible character
             res = Regex.Replace(res, @"\u200b", string.Empty);
 
-            // another bad space
-            res = Regex.Replace(res, @"\u00a0", " ");
 
             // bad dash
             res = Regex.Replace(res, @"\u2013", "-");

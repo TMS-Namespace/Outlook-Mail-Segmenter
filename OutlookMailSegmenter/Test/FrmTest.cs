@@ -18,10 +18,8 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
 
                 Outlook.Connect();
                 foreach (OutlookEmailsStore fd in Outlook.Stores)
-                {
                     cbDataSource.Items.Add(fd.Name);
 
-                }
 
                 lbConnect.Text = "Success!";
 
