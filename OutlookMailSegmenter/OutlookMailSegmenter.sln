@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutlookMailSegmenter", "OutlookMailSegmenter\OutlookMailSegmenter.csproj", "{359DF9B1-8CC7-4D22-AA7C-68C033D83412}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutlookMailSegmenter", "OutlookMailSegmenter\OutlookMailSegmenter.csproj", "{72255982-73DF-48F2-8EBE-70A2F06B018E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{C796427F-35D4-446A-8975-2243676A6921}"
+	ProjectSection(ProjectDependencies) = postProject
+		{72255982-73DF-48F2-8EBE-70A2F06B018E} = {72255982-73DF-48F2-8EBE-70A2F06B018E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +16,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{359DF9B1-8CC7-4D22-AA7C-68C033D83412}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{359DF9B1-8CC7-4D22-AA7C-68C033D83412}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{359DF9B1-8CC7-4D22-AA7C-68C033D83412}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{359DF9B1-8CC7-4D22-AA7C-68C033D83412}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72255982-73DF-48F2-8EBE-70A2F06B018E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72255982-73DF-48F2-8EBE-70A2F06B018E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72255982-73DF-48F2-8EBE-70A2F06B018E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72255982-73DF-48F2-8EBE-70A2F06B018E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C796427F-35D4-446A-8975-2243676A6921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C796427F-35D4-446A-8975-2243676A6921}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C796427F-35D4-446A-8975-2243676A6921}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C796427F-35D4-446A-8975-2243676A6921}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3E724CA5-FBD0-4895-8718-D608AB15ECF3}
+		SolutionGuid = {63BCE668-C0E8-485A-921F-F762FCF52CE0}
 	EndGlobalSection
 EndGlobal
