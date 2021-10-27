@@ -49,7 +49,6 @@ namespace TMS.Libraries.OutlookMailSegmenter
                         }
                 };
             }
-
         }
 
         #endregion
@@ -127,7 +126,6 @@ namespace TMS.Libraries.OutlookMailSegmenter
 
         }
 
-
         // header shared regex object
         private static Regex headerRegex;
 
@@ -147,7 +145,7 @@ namespace TMS.Libraries.OutlookMailSegmenter
                 // the usual pattern for email's headers after they got replayed.
                 // sometimes "importance" also in it, we do not need it, but it should be accounted
                 // otherwise, it will become part of subject. Also, some times cc is just missed.
-                string headerPatern = string.Format(@"(({0})\s*\:)(?<from>(.|\n)*?)(({1})\s*\:)(?<sent>(.|\n)*?)(({2})\s*\:)(?<to>(.|\n)*?)((({3})\s*\:)(?<cc>(.|\n)*?))*(({4})\s*\:)(?<subject>(.|\n)*)((({5})\s*\:)(?<importance>(.|\n)*))*",
+                string headerPattern = string.Format(@"(({0})\s*\:)(?<from>(.|\n)*?)(({1})\s*\:)(?<sent>(.|\n)*?)(({2})\s*\:)(?<to>(.|\n)*?)((({3})\s*\:)(?<cc>(.|\n)*?))*(({4})\s*\:)(?<subject>(.|\n)*)((({5})\s*\:)(?<importance>(.|\n)*))*",
                             string.Join("|", froms),
                             string.Join("|", sents),
                             string.Join("|", tos),
@@ -155,10 +153,8 @@ namespace TMS.Libraries.OutlookMailSegmenter
                             string.Join("|", subjects),
                             string.Join("|", importances));
 
-                headerRegex = new Regex(headerPatern, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                headerRegex = new Regex(headerPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
             }
-
-            //headerText = WebUtility.HtmlDecode(headerText);
 
             var match = headerRegex.Match(headerText);
 

@@ -12,6 +12,7 @@ namespace TMS.Libraries.OutlookMailSegmenter
 {
     public class EmailChunk
     {
+        
         #region Init
 
         /// <summary>
@@ -36,8 +37,8 @@ namespace TMS.Libraries.OutlookMailSegmenter
             ID = Guid.NewGuid();
 
             // clean html and text
-            var cleandHTMl = CleanHTML(html);
-            var text = StripHTML(cleandHTMl);
+            var cleanedHTMl = CleanHTML(html);
+            var text = StripHTML(cleanedHTMl);
 
             // In what below, we may modify same collection in parallel, so we need to mutex-lock it to prevent errors
             if (Outlook.CheckForIdenticalChunks & Outlook.ProcessInParallel)
@@ -61,7 +62,7 @@ namespace TMS.Libraries.OutlookMailSegmenter
             // if this is a unique chunk, or we are not checking for identical chunks
             if (this.BaseChunk == null)
             {
-                HTML = cleandHTMl;
+                HTML = cleanedHTMl;
                 Text = text;
                 BaseMailChunks.Add(this);
             }
@@ -89,15 +90,15 @@ namespace TMS.Libraries.OutlookMailSegmenter
         public string Text { get; private set; }
 
 
-        List<string> _EmailAdresses;
+        List<string> _EmailAddresses;
         public List<string> EmailAddresses
         {
             get
             {
-                if (_EmailAdresses == null)
-                    _EmailAdresses = ParseEmailAddresses(this.HTML);
+                if (_EmailAddresses == null)
+                    _EmailAddresses = ParseEmailAddresses(this.HTML);
 
-                return _EmailAdresses;
+                return _EmailAddresses;
             }
         }
 
@@ -151,7 +152,7 @@ namespace TMS.Libraries.OutlookMailSegmenter
 
 
         // shared regexes for html cleaning
-        private static Regex closedTagsRegx = new Regex(@"<(\w+)(?:\s+\w+=''[^'']+(?:''\$[^'']+'[^'']+)?'')*>\s*<\/\1>".Replace("'", "\""), RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static Regex closedTagsRegex = new Regex(@"<(\w+)(?:\s+\w+=''[^'']+(?:''\$[^'']+'[^'']+)?'')*>\s*<\/\1>".Replace("'", "\""), RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static Regex nonBreakingParagraphRegex = new Regex(@"(\<p\>\&nbsp\;\<\/p\>){2,}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
 
@@ -201,7 +202,7 @@ namespace TMS.Libraries.OutlookMailSegmenter
 
             // Remove empty tags
             // from https://stackoverflow.com/questions/26226277/remove-unused-empty-html-tags
-            res = closedTagsRegx.Replace(doc.DocumentNode.InnerHtml, string.Empty);
+            res = closedTagsRegex.Replace(doc.DocumentNode.InnerHtml, string.Empty);
 
             // remove <p>&nbsp;</p> at start and end
             if (res.StartsWith(nonBreakingParagraph))

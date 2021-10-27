@@ -16,25 +16,17 @@ namespace TMS.Libraries.OutlookMailSegmenter
 
             Application outlookApplication = new Application();
 
-            outookNameSpace = outlookApplication.GetNamespace("MAPI");
+            outlookNameSpace = outlookApplication.GetNamespace("MAPI");
 
-            outookNameSpace.Logon("", "", Missing.Value, Missing.Value);
+            outlookNameSpace.Logon("", "", Missing.Value, Missing.Value);
 
         }
-
-
-        //public OutlookFolder GetDefaulFolder(OlDefaultFolders folderID)
-        //{
-
-        //    OutookNameSpace.Stores.(folderID)
-        //}
-
 
         #endregion
 
         #region Properties
 
-        private static NameSpace outookNameSpace;
+        private static NameSpace outlookNameSpace;
 
         private static List<OutlookEmailsStore> _EmailStores;
         public static List<OutlookEmailsStore> Stores
@@ -47,12 +39,12 @@ namespace TMS.Libraries.OutlookMailSegmenter
                 {
                     _EmailStores = new List<OutlookEmailsStore>();
 
-                    foreach (Folder fd in outookNameSpace.Folders)
+                    foreach (Folder fd in outlookNameSpace.Folders)
                         _EmailStores.Add(new OutlookEmailsStore(fd));
                 }
 
                 // or, if we need original stores...
-                //foreach (Store s in OutookNameSpace.Stores)
+                //foreach (Store s in OutlookNameSpace.Stores)
                 //{
                 //    _EmailSources.Add(new OutlookEmailsSource(s.GetRootFolder());
                 //}
@@ -74,7 +66,6 @@ namespace TMS.Libraries.OutlookMailSegmenter
 
         #endregion
 
-
         #region Help Methods
 
 
@@ -85,7 +76,7 @@ namespace TMS.Libraries.OutlookMailSegmenter
 
         public static OutlookEmail GetEmailByOutlookEntryID(string entryID)
         {
-            var comMail = outookNameSpace.GetItemFromID(entryID) as MailItem;
+            var comMail = outlookNameSpace.GetItemFromID(entryID) as MailItem;
             var comFolder = comMail?.Parent as Folder;
             var comStore = comFolder?.Store.GetRootFolder() as Folder;
 

@@ -8,7 +8,6 @@ namespace TMS.Libraries.OutlookMailSegmenter
     public class OutlookEmailsStore : IOutlookEntity
     {
 
-
         #region Init
 
         private Folder _COMFolder;
@@ -28,7 +27,6 @@ namespace TMS.Libraries.OutlookMailSegmenter
         #region Properties
 
         public string Name { get; private set; }
-
 
         private List<OutlookFolder> _Folders;
         public List<OutlookFolder> Folders
@@ -51,12 +49,9 @@ namespace TMS.Libraries.OutlookMailSegmenter
 
         public string OutlookEntryID { get; private set; }
 
-
-
         #endregion
 
         #region Help Methods
-
 
         internal OutlookFolder GetFolderByOutlookEntryID(string entryID)
         {
