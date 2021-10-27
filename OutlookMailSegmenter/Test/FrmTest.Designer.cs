@@ -45,7 +45,7 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             this.chbProcessAllReplaes = new System.Windows.Forms.CheckBox();
             this.chbProcessSignitures = new System.Windows.Forms.CheckBox();
             this.chbProcessHeaders = new System.Windows.Forms.CheckBox();
-            this.chbProcessInParalell = new System.Windows.Forms.CheckBox();
+            this.chbProcessInParallel = new System.Windows.Forms.CheckBox();
             this.chbCheckForIdenticalChunks = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
@@ -137,7 +137,7 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             this.btnFetch.TabIndex = 9;
             this.btnFetch.Text = "Fetch..";
             this.btnFetch.UseVisualStyleBackColor = true;
-            this.btnFetch.Click += new System.EventHandler(this.btnFeach_Click);
+            this.btnFetch.Click += new System.EventHandler(this.btnFetch_Click);
             // 
             // lbProgress
             // 
@@ -195,18 +195,18 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             this.chbProcessHeaders.UseVisualStyleBackColor = true;
             this.chbProcessHeaders.CheckedChanged += new System.EventHandler(this.chbProcessHeaders_CheckedChanged);
             // 
-            // chbProcessInParalell
+            // chbProcessInParallel
             // 
-            this.chbProcessInParalell.AutoSize = true;
-            this.chbProcessInParalell.Checked = true;
-            this.chbProcessInParalell.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbProcessInParalell.Location = new System.Drawing.Point(542, 522);
-            this.chbProcessInParalell.Name = "chbProcessInParalell";
-            this.chbProcessInParalell.Size = new System.Drawing.Size(112, 17);
-            this.chbProcessInParalell.TabIndex = 16;
-            this.chbProcessInParalell.Text = "Process in Paralell";
-            this.chbProcessInParalell.UseVisualStyleBackColor = true;
-            this.chbProcessInParalell.CheckedChanged += new System.EventHandler(this.chbProcessInParalell_CheckedChanged);
+            this.chbProcessInParallel.AutoSize = true;
+            this.chbProcessInParallel.Checked = true;
+            this.chbProcessInParallel.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chbProcessInParallel.Location = new System.Drawing.Point(542, 522);
+            this.chbProcessInParallel.Name = "chbProcessInParallel";
+            this.chbProcessInParallel.Size = new System.Drawing.Size(112, 17);
+            this.chbProcessInParallel.TabIndex = 16;
+            this.chbProcessInParallel.Text = "Process in Parallel";
+            this.chbProcessInParallel.UseVisualStyleBackColor = true;
+            this.chbProcessInParallel.CheckedChanged += new System.EventHandler(this.chbProcessInParallel_CheckedChanged);
             // 
             // chbCheckForIdenticalChunks
             // 
@@ -227,7 +227,7 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 594);
             this.Controls.Add(this.chbCheckForIdenticalChunks);
-            this.Controls.Add(this.chbProcessInParalell);
+            this.Controls.Add(this.chbProcessInParallel);
             this.Controls.Add(this.chbProcessHeaders);
             this.Controls.Add(this.chbProcessSignitures);
             this.Controls.Add(this.chbProcessAllReplaes);
@@ -269,7 +269,7 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
         private System.Windows.Forms.CheckBox chbProcessAllReplaes;
         private System.Windows.Forms.CheckBox chbProcessSignitures;
         private System.Windows.Forms.CheckBox chbProcessHeaders;
-        private System.Windows.Forms.CheckBox chbProcessInParalell;
+        private System.Windows.Forms.CheckBox chbProcessInParallel;
         private System.Windows.Forms.CheckBox chbCheckForIdenticalChunks;
     }
 }

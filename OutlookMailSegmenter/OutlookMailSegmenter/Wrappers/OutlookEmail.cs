@@ -14,23 +14,22 @@ namespace TMS.Libraries.OutlookMailSegmenter
         private MailItem _COMEmail;
         internal OutlookEmail(OutlookFolder parentFolder, MailItem COMEmail)
         {
+               _COMEmail = COMEmail;
+                ID = Guid.NewGuid();
+                Folder = parentFolder;
 
-            _COMEmail = COMEmail;
-            ID = Guid.NewGuid();
-            Folder = parentFolder;
+                OutlookEntryID = COMEmail.EntryID;
+                OutlookConversationID = COMEmail.ConversationID;
+                OutlookConversationIndex = COMEmail.ConversationIndex;
 
-            OutlookEntryID = COMEmail.EntryID;
-            OutlookConversationID = COMEmail.ConversationID;
-            OutlookConversationIndex = COMEmail.ConversationIndex;
+                this.AttachmentsCount = COMEmail.Attachments.Count;
+                //COMEmail.GetConversation().GetChildren
 
-            this.AttachmentsCount = COMEmail.Attachments.Count;
-            //COMEmail.GetConversation().GetChildren
+                if (Outlook.ProcessHeaders)
+                    this.Header = new EmailHeader(COMEmail);
 
-            if (Outlook.ProcessHeaders)
-                this.Header = new EmailHeader(COMEmail);
-
-            CreateEmail(COMEmail.HTMLBody);
-
+                CreateEmail(COMEmail.HTMLBody);
+            
 
         }
 

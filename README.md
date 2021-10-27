@@ -103,10 +103,11 @@ In the current implementation, with all options on, it can process 1000 messages
 However, there are places for more optimization. And of course, turning some options off may lead to significantly less processing time.
 
 ## Dependencies
-It build with .Net Core 3.1, and :
+
+It build with .Net Framework 5, and :
 
 > Microsoft.Office.Interop.Outlook.dll, v 15.0.4569.1507
 
- usually installed along with MS Office, and can be found in GAC. If you will face problems with it and .Net Core, check out [this answer](https://stackoverflow.com/questions/58130446/net-core-3-0-and-ms-office-interop)
+ usually installed along with MS Office, and can be found in GAC. If you will face problems with it and .Net, check out [this answer](https://stackoverflow.com/questions/58130446/net-core-3-0-and-ms-office-interop)
 
 > HtmlAgilityPack Nuget Package, v 1.11.37

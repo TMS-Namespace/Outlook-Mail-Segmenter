@@ -46,11 +46,11 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
 
                 tvFolders.Nodes.Add(nd);
 
-                PoputlateSubTree(nd, fld);
+                PopulateSubTree(nd, fld);
             }
         }
 
-        private void PoputlateSubTree(TreeNode parentNode, OutlookFolder parentFolder)
+        private void PopulateSubTree(TreeNode parentNode, OutlookFolder parentFolder)
         {
             foreach (OutlookFolder fld in parentFolder.Folders)
             {
@@ -60,7 +60,7 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
                 parentNode.Nodes.Add(nd);
 
 
-                PoputlateSubTree(nd, fld);
+                PopulateSubTree(nd, fld);
             }
         }
 
@@ -76,7 +76,7 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
         }
 
 
-        private void btnFeach_Click(object sender, EventArgs e)
+        private void btnFetch_Click(object sender, EventArgs e)
         {
 
             if (_SelectedFolder != null)
@@ -124,9 +124,9 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             Outlook.CheckForIdenticalChunks = chbProcessHeaders.Checked;
         }
 
-        private void chbProcessInParalell_CheckedChanged(object sender, EventArgs e)
+        private void chbProcessInParallel_CheckedChanged(object sender, EventArgs e)
         {
-            Outlook.ProcessInParallel = chbProcessInParalell.Checked;
+            Outlook.ProcessInParallel = chbProcessInParallel.Checked;
 
         }
     }
