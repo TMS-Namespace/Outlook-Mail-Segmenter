@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using TMS.Libraries.OutlookMailSegmenter;
+
+using TMS.Libraries.OutlookMailWrapper;
 
 namespace TMS.Apps.OutlookMailSegmenter.Test
 {
@@ -88,7 +89,7 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
 
                 var watch = System.Diagnostics.Stopwatch.StartNew();
 
-                _SelectedFolder.Emails.Fetch(from, to);
+                _SelectedFolder.Emails.FetchLatest(from, to);
 
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
@@ -100,26 +101,9 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
         }
 
 
-
-        private void chbProcessAllReplaes_CheckedChanged(object sender, EventArgs e)
-        {
-            Outlook.ProcessAllReplays = chbProcessAllReplaes.Checked;
-        }
-
-        private void chbProcessSignitures_CheckedChanged(object sender, EventArgs e)
-        {
-            Outlook.ProcessSignatures = chbProcessSignitures.Checked;
-        }
-
-        private void chbProcessHeaders_CheckedChanged(object sender, EventArgs e)
-        {
-            Outlook.ProcessHeaders = chbCheckForIdenticalChunks.Checked;
-
-        }
-
         private void chbCheckForIdenticalChunks_CheckedChanged_1(object sender, EventArgs e)
         {
-            Outlook.CheckForIdenticalChunks = chbProcessHeaders.Checked;
+            Outlook.CheckForIdenticalChunks = chbCheckForIdenticalChunks.Checked;
         }
 
         private void chbProcessInParallel_CheckedChanged(object sender, EventArgs e)

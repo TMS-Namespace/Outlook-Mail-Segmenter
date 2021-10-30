@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>TMS.Libraries.EmailSegmenter</RootNamespace>
+    <AssemblyName>TMS.Libraries.EmailSegmenter</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
+    <PackageReference Include="XPath2" Version="1.1.2" />
+  </ItemGroup>
+
+</Project>

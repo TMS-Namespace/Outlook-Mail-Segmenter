@@ -3,12 +3,24 @@
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <RootNamespace>TMS.Libraries.OutlookMailSegmenter</RootNamespace>
-    <AssemblyName>TMS.Libraries.OutlookMailSegmenter</AssemblyName>
+    <RootNamespace>TMS.Libraries.OutlookMailWrapper</RootNamespace>
+    <AssemblyName>TMS.Libraries.OutlookMailWrapper</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
+    <Compile Remove="Parsers\**" />
+    <EmbeddedResource Remove="Parsers\**" />
+    <None Remove="Parsers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Mapped\Segmenter.cs" />
+    <Compile Remove="Wrappers\EmailChunk.cs" />
+    <Compile Remove="Wrappers\EmailHeader.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EmailSegmenter\EmailSegmenter.csproj" />
   </ItemGroup>
 
   <ItemGroup>

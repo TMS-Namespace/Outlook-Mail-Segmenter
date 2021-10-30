@@ -1,23 +1,24 @@
 ﻿using Microsoft.Office.Interop.Outlook;
-using System;
+
 using System.Collections.Generic;
 
-namespace TMS.Libraries.OutlookMailSegmenter
+namespace TMS.Libraries.OutlookMailWrapper
 {
-    public class OutlookFolder : IOutlookEntity
+    public class OutlookEmailsStore : OutlookBase
     {
 
         #region Init
 
-        internal Folder _COMFolder;
-        internal OutlookFolder(OutlookEmailsStore store, OutlookFolder parent, Folder COMFolder)
+        private Folder _COMFolder;
+        internal OutlookEmailsStore(Folder COMfolder)
         {
-            _COMFolder = COMFolder;
-            Parent = parent;
-            Store = store;
-            this.ID = Guid.NewGuid();
-            this.OutlookEntryID = COMFolder.EntryID;
-            this.Name = COMFolder.Name;
+            _COMFolder = COMfolder;
+
+            // this.ID = Guid.NewGuid();
+
+            OutlookEntryID = COMfolder.EntryID;
+
+            Name = COMfolder.Name;
         }
 
         #endregion
@@ -25,11 +26,6 @@ namespace TMS.Libraries.OutlookMailSegmenter
         #region Properties
 
         public string Name { get; private set; }
-
-        public OutlookFolder Parent { get; private set; }
-
-        public OutlookEmailsStore Store { get; private set; }
-
 
         private List<OutlookFolder> _Folders;
         public List<OutlookFolder> Folders
@@ -41,35 +37,20 @@ namespace TMS.Libraries.OutlookMailSegmenter
                     _Folders = new List<OutlookFolder>();
 
                     foreach (Folder fd in _COMFolder.Folders)
-                        _Folders.Add(new OutlookFolder(this.Store, this, fd));
-
+                        _Folders.Add(new OutlookFolder(this, null, fd));
                 }
 
                 return _Folders;
-
             }
         }
 
-        public Guid ID { get; private set; }
         public string OutlookEntryID { get; private set; }
-
-        private EmailsCollection _Emails;
-        public EmailsCollection Emails
-        {
-            get
-            {
-                if (_Emails is null)
-                    _Emails = new EmailsCollection(this);
-                return _Emails;
-            }
-
-        }
 
         #endregion
 
         #region Help Methods
 
-        internal OutlookFolder GetSubFolderByOutlookEntryID(string entryID)
+        internal OutlookFolder GetFolderByOutlookEntryID(string entryID)
         {
             foreach (OutlookFolder folder in this.Folders)
             {

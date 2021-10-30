@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 
-namespace TMS.Libraries.OutlookMailSegmenter
+namespace TMS.Libraries.OutlookMailWrapper
 {
     public static class Outlook
     {
@@ -54,13 +54,13 @@ namespace TMS.Libraries.OutlookMailSegmenter
 
         }
 
-        public static bool ProcessAllReplays { get; set; } = true;
+        //public static bool ProcessAllReplays { get; set; } = true;
 
-        public static bool ProcessSignatures { get; set; } = true;
+        //public static bool ProcessSignatures { get; set; } = true;
 
         public static bool CheckForIdenticalChunks { get; set; } = true;
 
-        public static bool ProcessHeaders { get; set; } = true;
+        //public static bool ProcessHeaders { get; set; } = true;
 
         public static bool ProcessInParallel { get; set; } = true;
 

@@ -1,96 +1,64 @@
 ﻿using HtmlAgilityPack;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 
-namespace TMS.Libraries.OutlookMailSegmenter
+namespace TMS.Libraries.EmailSegmenter
 {
-    public class EmailChunk
+    public class BodySegment : BaseSegment
     {
 
         #region Init
+
+        private bool _IsHTML = true;
+
 
         /// <summary>
         /// A help initializer, used for virtual chunks, i.e not real parts of emails, needed just to exploit this class' methods like cleaning and striping.
         /// </summary>
         /// <param name="chunk">The text or HTML code.</param>
         /// <param name="isHTML">Determines if the passed string is text or HTML, so it will be treated differently.</param>
-        internal EmailChunk(string chunk, bool isHTML = false)
-        {
-            ID = Guid.NewGuid();
+        public BodySegment(string chunk, bool isHTML = false) : base(chunk, null) { _IsHTML = isHTML; }
 
-            HTML = (isHTML) ? CleanHTML(chunk) : chunk;
-            Text = (isHTML) ? StripHTML(HTML) : FixBadCharacters(HTML);
-        }
-
-        // the collection that will hold unique base chunks, that will be referenced by any repeated email part, like repeated signatures
-        internal static List<EmailChunk> BaseMailChunks = new List<EmailChunk>();
-
-        // for locking previous static collection
-        private static Mutex mutex = new Mutex();
-        internal EmailChunk(string html, object parent)
-        {
-            Parent = parent;
-            ID = Guid.NewGuid();
-
-            // clean html and text
-            var cleanedHTMl = CleanHTML(html);
-            var text = StripHTML(cleanedHTMl);
-
-            // In what below, we may modify same collection in parallel, so we need to mutex-lock it to prevent errors
-            if (Outlook.CheckForIdenticalChunks & Outlook.ProcessInParallel)
-                mutex.WaitOne();
-
-            if (Outlook.CheckForIdenticalChunks)
-            {
-                // calc hash
-                SHA256 shaHash = SHA256.Create();
-                var hash = GetSha256Hash(shaHash, text);
-
-                // look if this chunk obtained before
-                this.BaseChunk = BaseMailChunks.SingleOrDefault(c => c.Hash == hash);
-
-                // if this is a new unique chunk, save hash
-                if (this.BaseChunk == null)
-                    Hash = hash;
-            }
+        internal BodySegment(HtmlDocument doc, BaseSegment parent) : base(doc, parent) { }
 
 
-            // if this is a unique chunk, or we are not checking for identical chunks
-            if (this.BaseChunk == null)
-            {
-                HTML = cleanedHTMl;
-                Text = text;
-                BaseMailChunks.Add(this);
-            }
-
-            // unlock
-            if (Outlook.CheckForIdenticalChunks & Outlook.ProcessInParallel)
-                mutex.ReleaseMutex();
-
-        }
+        internal BodySegment(string html, BaseSegment parent) : base(html, parent) { }
 
         #endregion
 
         #region Properties
 
-        public Object Parent { get; private set; }
+        private string _HTML;
+        public string HTML
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_HTML))
+                    _HTML = (_IsHTML) ? CleanHTML(OriginalHTML) : OriginalHTML;
 
-        internal string Hash { get; private set; }
+                return _HTML;
+            }
+        }
 
-        public EmailChunk BaseChunk { get; private set; }
+        private string _Text;
+        public string Text
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_Text))
+                    _Text = (_IsHTML) ? StripHTML(HTML) : FixBadCharacters(HTML);
 
-        public Guid ID { get; private set; }
+                return _Text;
+            }
+        }
 
-        public string HTML { get; internal set; }
-
-        public string Text { get; private set; }
-
+        // hide body from base
+        private new BodySegment Body { get; set; }
 
         List<string> _EmailAddresses;
         public List<string> EmailAddresses
@@ -104,10 +72,25 @@ namespace TMS.Libraries.OutlookMailSegmenter
             }
         }
 
+        List<string> _Phones;
+        public List<string> Phones
+        {
+            get
+            {
+                if (_Phones == null)
+                    _Phones = ParsePhones(this.HTML);
+
+                return _Phones;
+            }
+        }
+
+
+
         #endregion
 
         #region Help Methods
 
+        #region Information Parsers
 
         const string emailAddressPattern = @"([a-z0-9]+(?:[._-][a-z0-9]+)*)@([a-z0-9]+(?:[.-][a-z0-9]+)*\.[a-z]{2,})";
 
@@ -120,7 +103,7 @@ namespace TMS.Libraries.OutlookMailSegmenter
             foreach (Match m in emailAddressRegex.Matches(text.ToLower().Trim()))
             {
                 if (res is null)
-                    res = new List<string>(0);
+                    res = new List<string>();
 
                 string email = m.Value.ToLower().Trim();
 
@@ -132,33 +115,46 @@ namespace TMS.Libraries.OutlookMailSegmenter
             return res;
         }
 
-        private string GetSha256Hash(SHA256 shaHash, string input)
+        const string internationalPhonesPattern = @"(\+|0)\d{1,4}(\s*\(\s*\d{1,4}\s*\)\s*)*((\s|\-){0,2}\d{1,4}){7,15}";
+
+        private static Regex phonesRegex = new Regex(internationalPhonesPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+        private List<string> ParsePhones(string text)
         {
-            // Convert the input string to a byte array and compute the hash.
-            byte[] data = shaHash.ComputeHash(Encoding.UTF8.GetBytes(input));
+            List<string> res = null;
 
-            // Create a new Stringbuilder to collect the bytes
-            // and create a string.
-            StringBuilder sBuilder = new StringBuilder();
-
-            // Loop through each byte of the hashed data 
-            // and format each one as a hexadecimal string.
-            for (int i = 0; i < data.Length; i++)
+            foreach (Match m in emailAddressRegex.Matches(text.ToLower().Trim()))
             {
-                sBuilder.Append(data[i].ToString("x2"));
+                if (res is null)
+                    res = new List<string>();
+
+                string phone = m
+                                .Value
+                                .Replace(" ", string.Empty)
+                                .Replace("-", string.Empty)
+                                .Replace("(", string.Empty)
+                                .Replace(")", string.Empty)
+                                .Trim();
+
+                if (!res.Contains(phone))
+                    res.Add(phone);
+
             }
 
-            // Return the hexadecimal string.
-            return sBuilder.ToString();
+            return res;
         }
 
+        #endregion
+
+        #region Cleaning HTML
 
         // shared regexes for html cleaning
         private static Regex closedTagsRegex = new Regex(@"<(\w+)(?:\s+\w+=''[^'']+(?:''\$[^'']+'[^'']+)?'')*>\s*<\/\1>".Replace("'", "\""), RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static Regex nonBreakingParagraphRegex = new Regex(@"(\<p\>\&nbsp\;\<\/p\>){2,}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
 
-        private string CleanHTML(string html)
+
+        public static string CleanHTML(string html)
         {
             if (string.IsNullOrWhiteSpace(html))
                 return string.Empty;
@@ -225,7 +221,7 @@ namespace TMS.Libraries.OutlookMailSegmenter
 
 
         // from: https://stackoverflow.com/questions/12787449/html-agility-pack-removing-unwanted-tags-without-removing-content/12836974#12836974
-        private string RemoveUnwantedHtmlTags(string html, List<string> unwantedTags)
+        private static string RemoveUnwantedHtmlTags(string html, List<string> unwantedTags)
         {
             if (String.IsNullOrEmpty(html))
                 return html;
@@ -265,7 +261,37 @@ namespace TMS.Libraries.OutlookMailSegmenter
             return document.DocumentNode.InnerHtml;
         }
 
-        private string StripHTML(string HTML)
+        #endregion
+
+        #region Cleaning Text
+
+        public static string FixBadCharacters(string txt)
+        {
+            if (string.IsNullOrWhiteSpace(txt))
+                return string.Empty;
+
+            // replace non breaking spaces, and other spaces
+            // see https://en.wikipedia.org/wiki/Non-breaking_space
+            var res = Regex.Replace(txt, @"(\u00A0|\u00a0|\u2007|\u202F|\u2060)", " ");
+
+
+            // replace bad left/right quotations marks
+            res = Regex.Replace(res, @"((\u2019\s*\u2018)|(\u2018\s*\u2019))", "\"");
+
+            res = Regex.Replace(res, @"(\u2019|\u2018)", "'");
+
+            // bad un-visible character
+            res = Regex.Replace(res, @"\u200b", string.Empty);
+
+
+            // bad dash
+            res = Regex.Replace(res, @"\u2013", "-");
+
+            return res.Trim();
+        }
+
+
+        public static string StripHTML(string HTML)
         {
 
             HtmlDocument doc = new HtmlDocument();
@@ -310,32 +336,7 @@ namespace TMS.Libraries.OutlookMailSegmenter
 
         }
 
-
-
-        private string FixBadCharacters(string txt)
-        {
-            if (string.IsNullOrWhiteSpace(txt))
-                return string.Empty;
-
-            // replace non breaking spaces, and other spaces
-            // see https://en.wikipedia.org/wiki/Non-breaking_space
-            var res = Regex.Replace(txt, @"(\u00A0|\u00a0|\u2007|\u202F|\u2060)", " ");
-
-
-            // replace bad left/right quotations marks
-            res = Regex.Replace(res, @"((\u2019\s*\u2018)|(\u2018\s*\u2019))", "\"");
-
-            res = Regex.Replace(res, @"(\u2019|\u2018)", "'");
-
-            // bad un-visible character
-            res = Regex.Replace(res, @"\u200b", string.Empty);
-
-
-            // bad dash
-            res = Regex.Replace(res, @"\u2013", "-");
-
-            return res;
-        }
+        #endregion
 
         #endregion
 
