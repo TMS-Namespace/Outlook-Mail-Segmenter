@@ -1,6 +1,6 @@
 # Outlook Email Parser and Segmenter
 
-This is a small library, that performs naive processing of the emails stored in Microsoft Office Outlook, to segment out, lazily, messages parts, like its header, body, signature, and replays.
+This is a small library, that performs naive processing of the emails stored in Microsoft Office Outlook, to segment out, lazily, messages parts, like there header, body, signature, and replays.
 
 I created this to apply afterwards, NLP on the results.
 
