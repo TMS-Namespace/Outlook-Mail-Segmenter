@@ -89,4 +89,4 @@ It build with .Net Framework 5, and :
 > HtmlAgilityPack, Nuget Package, v1.11.37
 
 To use XPath 2.0 features:
-> XPath2, Niget Package, v1.1.2
+> XPath2, Nuget Package, v1.1.2
