@@ -61,7 +61,8 @@ Outlook.CheckForIdenticalChunks = True;
 // to pre-load all properties, that are lazy by default
 Outlook.ProcessInParallel = True;
 
-// other options, like greedy headers, signatures, replays processing (during parallel fetching) are available.
+// other options, like greedy headers, signatures, replays 
+// processing (during parallel fetching) are available.
 ```
 
 ## Accuracy
