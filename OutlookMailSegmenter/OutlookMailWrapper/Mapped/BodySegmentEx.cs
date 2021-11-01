@@ -4,7 +4,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 
-using TMS.Libraries.EmailSegmenter;
+using TMS.Libraries.ClassicalEmailSegmenter;
+using TMS.Libraries.OutlookMailWrapper.Helpers;
 
 namespace TMS.Libraries.OutlookMailWrapper
 {
@@ -19,22 +20,22 @@ namespace TMS.Libraries.OutlookMailWrapper
 
         private BodySegment Origin;
 
-        public BodySegmentEx(BodySegment origin) : base(origin)
+        public BodySegmentEx(BodySegment origin, IEmailPart parent) : base(origin, parent)
         {
             Origin = origin;
 
             // In what below, we may modify same collection in parallel, so we need to mutex-lock it to prevent errors
-            if (Outlook.CheckForIdenticalChunks & Outlook.ProcessInParallel)
-                mutex.WaitOne();
-
-            if (Outlook.CheckForIdenticalChunks)
+            if (Outlook.CheckForIdenticalBodySegments)
             {
+                if (Outlook.ProcessInParallel)
+                    mutex.WaitOne();
+
                 // calc hash
                 SHA256 shaHash = SHA256.Create();
                 var hash = GetSha256Hash(shaHash, Origin.Text);
 
                 // look if this chunk obtained before
-                this.BaseBodySegment = BaseBodySegments.SingleOrDefault(c => c.Hash == hash);
+                this.BaseBodySegment = Outlook.AllBodies.SingleOrDefault(c => c.Hash == hash);
 
                 // if this is a new unique chunk, save hash
                 if (this.BaseBodySegment == null)
@@ -42,13 +43,11 @@ namespace TMS.Libraries.OutlookMailWrapper
             }
 
 
-            // if this is a unique chunk, or we are not checking for identical chunks
-            if (this.BaseBodySegment == null)
-                BaseBodySegments.Add(this);
+            Outlook.AllBodies.Add(this);
 
 
             // unlock
-            if (Outlook.CheckForIdenticalChunks & Outlook.ProcessInParallel)
+            if (Outlook.CheckForIdenticalBodySegments & Outlook.ProcessInParallel)
                 mutex.ReleaseMutex();
 
         }
@@ -70,13 +69,13 @@ namespace TMS.Libraries.OutlookMailWrapper
         private new BodySegmentEx Body { get; set; }
 
 
-        public List<string> EmailAddresses => Origin.EmailAddresses;
+        public List<string> EmailAddresses => (BaseBodySegment == null) ? Origin.EmailAddresses : null;
 
-        public List<string> Phones => Origin.Phones;
+        public List<string> InternationalPhones => (BaseBodySegment == null) ? Origin.InternationalPhones : null;
 
 
         // the collection that will hold unique base chunks, that will be referenced by any repeated email part, like repeated signatures
-        internal static List<BodySegmentEx> BaseBodySegments = new List<BodySegmentEx>();
+        //internal static List<BodySegmentEx> BaseBodySegments;
 
         #endregion
 

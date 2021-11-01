@@ -1,4 +1,5 @@
-﻿using TMS.Libraries.EmailSegmenter;
+﻿using TMS.Libraries.ClassicalEmailSegmenter;
+using TMS.Libraries.OutlookMailWrapper.Helpers;
 
 namespace TMS.Libraries.OutlookMailWrapper
 {
@@ -8,7 +9,10 @@ namespace TMS.Libraries.OutlookMailWrapper
 
         private SignatureSegment Origin;
 
-        internal SignatureSegmentEx(SignatureSegment origin) : base(origin) { Origin = origin; }
+        internal SignatureSegmentEx(SignatureSegment origin, IEmailPart parent) : base(origin, parent)
+        {
+            Origin = origin;
+        }
 
         #endregion
 

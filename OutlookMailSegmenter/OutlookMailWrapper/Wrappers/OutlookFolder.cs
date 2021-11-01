@@ -15,16 +15,14 @@ namespace TMS.Libraries.OutlookMailWrapper
             _COMFolder = COMFolder;
             Parent = parent;
             Store = store;
-            //this.ID = Guid.NewGuid();
-            this.OutlookEntryID = COMFolder.EntryID;
-            this.Name = COMFolder.Name;
+            OutlookEntryID = COMFolder.EntryID;
         }
 
         #endregion
 
         #region Properties
 
-        public string Name { get; private set; }
+        public string Name => _COMFolder.Name;
 
         public OutlookFolder Parent { get; private set; }
 
@@ -49,9 +47,6 @@ namespace TMS.Libraries.OutlookMailWrapper
 
             }
         }
-
-        // public Guid ID { get; private set; }
-        public string OutlookEntryID { get; private set; }
 
         private OutlookEmailsCollection _Emails;
         public OutlookEmailsCollection Emails

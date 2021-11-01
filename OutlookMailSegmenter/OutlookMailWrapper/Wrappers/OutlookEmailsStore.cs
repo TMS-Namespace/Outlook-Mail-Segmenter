@@ -13,19 +13,14 @@ namespace TMS.Libraries.OutlookMailWrapper
         internal OutlookEmailsStore(Folder COMfolder)
         {
             _COMFolder = COMfolder;
-
-            // this.ID = Guid.NewGuid();
-
-            OutlookEntryID = COMfolder.EntryID;
-
-            Name = COMfolder.Name;
+            OutlookEntryID = _COMFolder.EntryID;
         }
 
         #endregion
 
         #region Properties
 
-        public string Name { get; private set; }
+        public string Name => _COMFolder.Name;
 
         private List<OutlookFolder> _Folders;
         public List<OutlookFolder> Folders
@@ -43,8 +38,6 @@ namespace TMS.Libraries.OutlookMailWrapper
                 return _Folders;
             }
         }
-
-        public string OutlookEntryID { get; private set; }
 
         #endregion
 

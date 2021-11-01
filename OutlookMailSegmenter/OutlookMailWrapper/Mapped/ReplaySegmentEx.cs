@@ -1,23 +1,50 @@
-﻿using TMS.Libraries.EmailSegmenter;
+﻿using TMS.Libraries.ClassicalEmailSegmenter;
+using TMS.Libraries.OutlookMailWrapper.Helpers;
 
 namespace TMS.Libraries.OutlookMailWrapper
 {
-    public class ReplaySegmentEx : BaseSegmentEx
+    public class ReplaySegmentEx : BaseSegmentEx, IMessage
     {
 
         #region Init
 
         private ReplaySegment Origin;
 
-        internal ReplaySegmentEx(ReplaySegment origin) : base(origin) { Origin = origin; }
+        internal ReplaySegmentEx(ReplaySegment origin, IEmailPart parent) : base(origin, parent)
+        {
+            Origin = origin;
+
+        }
 
         #endregion
 
         #region Properties
 
-        public SignatureSegmentEx Signature => new SignatureSegmentEx(Origin.Signature);
+        private SignatureSegmentEx _Signature;
+        public SignatureSegmentEx Signature
+        {
+            get
+            {
 
-        public HeaderSegmentEx Header => new HeaderSegmentEx(Origin.Header);
+                if (_Signature == null)
+                    _Signature = new SignatureSegmentEx(Origin.Signature, this);
+
+                return _Signature;
+            }
+        }
+
+        private HeaderSegmentEx _Header;
+        public HeaderSegmentEx Header
+        {
+            get
+            {
+                if (_Header == null)
+                    _Header = new HeaderSegmentEx(Origin.Header, this);
+
+                return _Header;
+            }
+        }
+
 
         #endregion
 

@@ -3,19 +3,18 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TMS.Libraries.EmailSegmenter
+namespace TMS.Libraries.ClassicalEmailSegmenter
 {
     public class Segmenter : BaseSegment
     {
 
         #region Init
 
-        public Segmenter(string html) : base(html, null) { }
+        public Segmenter(string html) : base(null) { this.OriginalHTML = html; }
 
         #endregion
 
         #region Properties
-
 
         private SignatureSegment _Signature;
         public SignatureSegment Signature
@@ -23,7 +22,7 @@ namespace TMS.Libraries.EmailSegmenter
             get
             {
                 if (_Signature == null)
-                    SegmentEmail(OriginalHTML);
+                    Segment();
 
                 return
                     _Signature;
@@ -37,7 +36,7 @@ namespace TMS.Libraries.EmailSegmenter
             get
             {
                 if (_Replays == null)
-                    SegmentEmail(OriginalHTML);
+                    Segment();
 
                 return _Replays;
             }
@@ -52,7 +51,7 @@ namespace TMS.Libraries.EmailSegmenter
             get
             {
                 if (_Body == null)
-                    SegmentEmail(OriginalHTML);
+                    Segment();
 
                 return _Body;
             }
@@ -62,33 +61,36 @@ namespace TMS.Libraries.EmailSegmenter
 
         #region Help Methods
 
-        private void SegmentEmail(string html)
+        private void Segment()
         {
 
             // --- find replays
-            var replaysHTML = SplitToReplays(html);
+            var replaysHTML = SplitToReplays(this.OriginalHTML);
 
             // --- set the main email
-            var mainDoc = new HtmlDocument();
-            mainDoc.LoadHtml(replaysHTML[0]);
+            this.SegmentHmlDocument = new HtmlDocument();
+            SegmentHmlDocument.LoadHtml(replaysHTML[0]);
 
             // first we find and strip out the signature
-            _Signature = new SignatureSegment(mainDoc, this);
+            _Signature = new SignatureSegment(this);
+
             // Force signature segmenting
             var tmp = Signature.Body;
+
             // set main body
-            _Body = new BodySegment(mainDoc, this);
+            _Body = new BodySegment(this);
 
             if (replaysHTML.Count > 0)
+            {
                 _Replays = new List<ReplaySegment>();
 
-            replaysHTML.
-                        Skip(1).
-                        ToList().
-                        ForEach(r =>
-                                _Replays.Add(new ReplaySegment(r, this))
-                                );
-
+                replaysHTML.
+                            Skip(1).
+                            ToList().
+                            ForEach(r =>
+                                    _Replays.Add(new ReplaySegment(r, this))
+                                    );
+            }
 
         }
 
@@ -139,7 +141,6 @@ namespace TMS.Libraries.EmailSegmenter
         }
 
         // From, to etc... keywords in different languages
-        //static List<string> froms = new List<string>() { "from", "от", "من" };
         static string froms = string.Join("|", new List<string>() { "from", "от", "من" });
 
         /// <summary>
@@ -158,7 +159,7 @@ namespace TMS.Libraries.EmailSegmenter
             var conditionsFrom = @"matches(.,'(" + froms + @")\s*\:', 'i')";
 
             //var res = doc.DocumentNode.SelectNodes($"//div/div[contains(@style,'border-top:solid')]/p/b/span[{conditionsFrom}]")?.ToList();
-            var res = Shared.GetXPath2Nodes(doc, @"//div/div[contains(@style,'border-top:solid')]/p/b/span[" + conditionsFrom + "]");
+            var res = Shared.GetXPath2Nodes(doc, @"//div/div[contains(@style,'border-top:solid')]/p/*[self::b or self::strong]/span[" + conditionsFrom + "]");
 
             // we go up in DOM tree to get top most separator tag
             if (res != null)
@@ -183,10 +184,16 @@ namespace TMS.Libraries.EmailSegmenter
             if (res != null)
                 separators.AddRange(res?.Select(n => n.ParentNode).ToList());
 
-            // another possibility, commented replay
+            // another possibility, blockquote, however, they are nasty, since they are nested!
             res = doc.DocumentNode.SelectNodes("//blockquote/div/div/div")?.ToList();
             if (res != null)
-                separators.AddRange(res?.Select(n => n.ParentNode).ToList());
+                separators.AddRange(res?.Select(n => n.ParentNode?.ParentNode).ToList());
+
+            // another hr option
+            res = doc.DocumentNode.SelectNodes("//div/span/hr[contains(@style,'color:')]")?.ToList();
+            if (res != null)
+                separators.AddRange(res?.Select(n => n.ParentNode?.ParentNode).ToList());
+
 
             // another possibility, commented replay
             res = doc.DocumentNode.SelectNodes("//div/p/span[contains(.,'ORIGINAL MESSAGE')]")?.ToList();

@@ -19,7 +19,7 @@ namespace TMS.Libraries.OutlookMailWrapper
 
         public Guid ID { get; private set; }
 
-        string OutlookEntryID { get; }
+        public string OutlookEntryID { get; internal set; }
 
         #endregion
 

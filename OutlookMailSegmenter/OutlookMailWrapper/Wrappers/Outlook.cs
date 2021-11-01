@@ -8,23 +8,10 @@ namespace TMS.Libraries.OutlookMailWrapper
     public static class Outlook
     {
 
-        #region Methods
-
-        public static void Connect()
-        {
-            _EmailStores?.Clear();
-
-            Application outlookApplication = new Application();
-
-            outlookNameSpace = outlookApplication.GetNamespace("MAPI");
-
-            outlookNameSpace.Logon("", "", Missing.Value, Missing.Value);
-
-        }
-
-        #endregion
 
         #region Properties
+
+        internal static List<BodySegmentEx> AllBodies { get; } = new List<BodySegmentEx>();
 
         private static NameSpace outlookNameSpace;
 
@@ -54,13 +41,13 @@ namespace TMS.Libraries.OutlookMailWrapper
 
         }
 
-        //public static bool ProcessAllReplays { get; set; } = true;
 
-        //public static bool ProcessSignatures { get; set; } = true;
 
-        public static bool CheckForIdenticalChunks { get; set; } = true;
+        public static bool CheckForIdenticalBodySegments { get; set; } = true;
 
-        //public static bool ProcessHeaders { get; set; } = true;
+        public static bool GreedyHeadersProcessing { get; set; } = true;
+        public static bool GreedyReplaysProcessing { get; set; } = true;
+        public static bool GreedySignaturesProcessing { get; set; } = true;
 
         public static bool ProcessInParallel { get; set; } = true;
 
@@ -72,6 +59,21 @@ namespace TMS.Libraries.OutlookMailWrapper
         internal static OutlookEmailsStore GetStoreByOutlookEntryID(string entryID)
         {
             return Outlook.Stores.SingleOrDefault(s => s.OutlookEntryID == entryID);
+        }
+
+        #endregion
+
+        #region Methods
+        public static void Connect()
+        {
+            _EmailStores?.Clear();
+
+            Application outlookApplication = new Application();
+
+            outlookNameSpace = outlookApplication.GetNamespace("MAPI");
+
+            outlookNameSpace.Logon("", "", Missing.Value, Missing.Value);
+
         }
 
         public static OutlookEmail GetEmailByOutlookEntryID(string entryID)

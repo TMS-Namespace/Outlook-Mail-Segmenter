@@ -1,20 +1,22 @@
 ﻿using System;
 
-using TMS.Libraries.EmailSegmenter;
+using TMS.Libraries.ClassicalEmailSegmenter;
+using TMS.Libraries.OutlookMailWrapper.Helpers;
 
 namespace TMS.Libraries.OutlookMailWrapper
 {
-    public class BaseSegmentEx
+    public class BaseSegmentEx : IEmailPart
     {
         #region Init
 
         private BaseSegment Origin;
 
-        internal BaseSegmentEx(BaseSegment origin)
+        internal BaseSegmentEx(BaseSegment origin, IEmailPart parent)
         {
 
             Origin = origin;
             ID = Guid.NewGuid();
+            this.Parent = parent;
         }
 
         #endregion
@@ -23,9 +25,22 @@ namespace TMS.Libraries.OutlookMailWrapper
 
         public Guid ID { get; private set; }
 
-        public BodySegmentEx Body => (Origin == null || Origin.Body == null) ? null : new BodySegmentEx(Origin.Body);
+        private BodySegmentEx _Body;
+        public BodySegmentEx Body
+        {
+            get
+            {
 
-        public BaseSegmentEx Parent => (Origin == null || Origin.Body == null) ? null : new BaseSegmentEx(Origin.Parent);
+                if (_Body == null && !(Origin == null || Origin.Body == null))
+                    _Body = new BodySegmentEx(Origin.Body, this);
+
+                return _Body;
+
+            }
+        }
+
+        public IEmailPart Parent { get; private set; }
+
 
         /// <summary>
         /// Segment's HTML before any manipulations.

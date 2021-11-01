@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using TMS.Libraries.EmailSegmenter;
+using TMS.Libraries.ClassicalEmailSegmenter;
+using TMS.Libraries.OutlookMailWrapper.Helpers;
 
 namespace TMS.Libraries.OutlookMailWrapper
 {
@@ -11,19 +12,24 @@ namespace TMS.Libraries.OutlookMailWrapper
         #region Init
 
         private HeaderSegment Origin;
-        internal HeaderSegmentEx(HeaderSegment origin) : base(origin) { Origin = origin; }
+        internal HeaderSegmentEx(HeaderSegment origin, IEmailPart parent) : base(origin, parent)
+        {
+
+            Origin = origin;
+        }
 
         string _From, _Subject;
         List<string> _To, _CC;
         DateTime _Date;
 
-        internal HeaderSegmentEx(string from, List<string> to, List<string> cc, DateTime date, string subject) : base(null)
+        internal HeaderSegmentEx(string from, List<string> to, List<string> cc, DateTime date, string subject, IEmailPart parent) : base(null, parent)
         {
             _From = from;
             _To = to;
             _CC = cc;
             _Date = date;
             _Subject = subject;
+
         }
 
         #endregion
@@ -44,7 +50,7 @@ namespace TMS.Libraries.OutlookMailWrapper
 
         public List<string> CC => (Origin == null) ? _CC : Origin.CC;
 
-        public DateTime Date => (Origin == null) ? _Date : Origin.Date;
+        public DateTime? Date => (Origin == null) ? _Date : Origin.Date;
 
         #endregion
 

@@ -37,7 +37,9 @@ namespace TMS.Libraries.OutlookMailWrapper
         public new void Clear()
         {
             base.Clear();
-            BodySegmentEx.BaseBodySegments?.Clear();
+
+            Outlook.AllBodies.Clear();
+
             GC.Collect();
         }
 
@@ -51,9 +53,9 @@ namespace TMS.Libraries.OutlookMailWrapper
             if (from > to || from < 0 || to < 0 || to > TotalCount - 1)
                 throw new System.Exception("Invalid Fetch' boundaries are specified.");
 
-
-            _COMFolder.Items.Sort("[ReceivedTime]", false);
-            var mails = _COMFolder.Items.Cast<MailItem>().Skip(from).Take(to - from + 1).ToList();
+            var items = _COMFolder.Items;
+            items.Sort("[ReceivedTime]", true);
+            var mails = items.Cast<MailItem>().Skip(from).Take(to - from + 1).ToList();
 
             // when in parallel we pre-reload all lazy properties
             if (Outlook.ProcessInParallel)
@@ -76,12 +78,13 @@ namespace TMS.Libraries.OutlookMailWrapper
         }
 
 
-        public void PreloadProperties(object obj)
+        private void PreloadProperties(object obj)
         {
             if (obj is OutlookEmail)
             {
                 var casted = (OutlookEmail)obj;
                 PropertyInfo[] props = casted.GetType().GetProperties();
+                // we exclude conversations, since they are not a parsing result
                 props.ToList().ForEach(p =>
                 {
                     var tmp = (p.Name != "Conversations") ? p.GetValue(casted) : null;
@@ -93,7 +96,7 @@ namespace TMS.Libraries.OutlookMailWrapper
 
             }
 
-            if (obj is HeaderSegmentEx)
+            if (obj is HeaderSegmentEx && Outlook.GreedyHeadersProcessing)
             {
                 var casted = (HeaderSegmentEx)obj;
                 PropertyInfo[] props = casted.GetType().GetProperties();
@@ -101,7 +104,7 @@ namespace TMS.Libraries.OutlookMailWrapper
                 PreloadProperties(casted.Body);
             }
 
-            if (obj is SignatureSegmentEx)
+            if (obj is SignatureSegmentEx && Outlook.GreedySignaturesProcessing)
             {
                 var casted = (SignatureSegmentEx)obj;
                 PropertyInfo[] props = casted.GetType().GetProperties();
@@ -109,7 +112,7 @@ namespace TMS.Libraries.OutlookMailWrapper
                 PreloadProperties(casted.Body);
             }
 
-            if (obj is ReplaySegmentEx)
+            if (obj is ReplaySegmentEx && Outlook.GreedyReplaysProcessing)
             {
                 var casted = (ReplaySegmentEx)obj;
                 PropertyInfo[] props = casted.GetType().GetProperties();

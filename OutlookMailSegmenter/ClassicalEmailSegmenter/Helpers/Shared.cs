@@ -7,88 +7,40 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace TMS.Libraries.EmailSegmenter
+using Wmhelp.XPath2;
+
+namespace TMS.Libraries.ClassicalEmailSegmenter
 {
-    public class BodySegment : BaseSegment
+    public static class Shared
     {
 
-        #region Init
+        #region Fields
 
-        private bool _IsHTML = true;
-
-
-        /// <summary>
-        /// A help initializer, used for virtual chunks, i.e not real parts of emails, needed just to exploit this class' methods like cleaning and striping.
-        /// </summary>
-        /// <param name="chunk">The text or HTML code.</param>
-        /// <param name="isHTML">Determines if the passed string is text or HTML, so it will be treated differently.</param>
-        public BodySegment(string chunk, bool isHTML = false) : base(chunk, null) { _IsHTML = isHTML; }
-
-        internal BodySegment(HtmlDocument doc, BaseSegment parent) : base(doc, parent) { }
-
-
-        internal BodySegment(string html, BaseSegment parent) : base(html, parent) { }
-
-        #endregion
-
-        #region Properties
-
-        private string _HTML;
-        public string HTML
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(_HTML))
-                    _HTML = (_IsHTML) ? CleanHTML(OriginalHTML) : OriginalHTML;
-
-                return _HTML;
-            }
-        }
-
-        private string _Text;
-        public string Text
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(_Text))
-                    _Text = (_IsHTML) ? StripHTML(HTML) : FixBadCharacters(HTML);
-
-                return _Text;
-            }
-        }
-
-        // hide body from base
-        private new BodySegment Body { get; set; }
-
-        List<string> _EmailAddresses;
-        public List<string> EmailAddresses
-        {
-            get
-            {
-                if (_EmailAddresses == null)
-                    _EmailAddresses = ParseEmailAddresses(this.HTML);
-
-                return _EmailAddresses;
-            }
-        }
-
-        List<string> _Phones;
-        public List<string> Phones
-        {
-            get
-            {
-                if (_Phones == null)
-                    _Phones = ParsePhones(this.HTML);
-
-                return _Phones;
-            }
-        }
-
-
+        // From, to etc... keywords in different languages
+        public static string fromKeyWords = string.Join("|", new List<string>() { "from", "от", "من" });
+        public static string toKeyWords = string.Join("|", new List<string>() { "to", "Кому", "إلى" });
+        public static string ccKeyWords = string.Join("|", new List<string>() { "cc", "Копия", "نسخة" });
+        public static string subjectKeyWords = string.Join("|", new List<string>() { "subject", "Тема", "الموضوع" });
+        public static string sentKeyWords = string.Join("|", new List<string>() { "sent", "date", "Отправлено", "التاريخ" });
+        public static string importantKeyWords = string.Join("|", new List<string>() { "importance", "Важность", "من" });
 
         #endregion
 
         #region Help Methods
+
+        internal static List<HtmlNode> GetXPath2Nodes(HtmlDocument doc, string query)
+        {
+            return doc
+                        .CreateNavigator()
+                        .XPath2SelectNodes(query)
+                        .Cast<HtmlNodeNavigator>()
+                        .ToList()
+                        .Select(n => n.CurrentNode).ToList();
+        }
+
+        #endregion
+
+        #region Methods
 
         #region Information Parsers
 
@@ -96,7 +48,7 @@ namespace TMS.Libraries.EmailSegmenter
 
         private static Regex emailAddressRegex = new Regex(emailAddressPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
-        private List<string> ParseEmailAddresses(string text)
+        public static List<string> ParseEmailAddresses(string text)
         {
             List<string> res = null;
 
@@ -119,11 +71,11 @@ namespace TMS.Libraries.EmailSegmenter
 
         private static Regex phonesRegex = new Regex(internationalPhonesPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
-        private List<string> ParsePhones(string text)
+        public static List<string> ParsePhones(string text)
         {
             List<string> res = null;
 
-            foreach (Match m in emailAddressRegex.Matches(text.ToLower().Trim()))
+            foreach (Match m in phonesRegex.Matches(text.Trim()))
             {
                 if (res is null)
                     res = new List<string>();
@@ -176,10 +128,6 @@ namespace TMS.Libraries.EmailSegmenter
                 res = nonBreakingParagraphRegex.Replace(res, nonBreakingParagraph);
 
 
-            // remove usual endings
-            res = Regex.Replace(res, @"(best(\s|\n)*regards)|(sincerely(\s|\n)*yours)", string.Empty, RegexOptions.IgnoreCase);
-
-
             // Remove all attributes
             // from: https://html-agility-pack.net/knowledge-base/37700985/how-to-remove-all-attributes-in-html-tags
 
@@ -221,7 +169,7 @@ namespace TMS.Libraries.EmailSegmenter
 
 
         // from: https://stackoverflow.com/questions/12787449/html-agility-pack-removing-unwanted-tags-without-removing-content/12836974#12836974
-        private static string RemoveUnwantedHtmlTags(string html, List<string> unwantedTags)
+        public static string RemoveUnwantedHtmlTags(string html, List<string> unwantedTags)
         {
             if (String.IsNullOrEmpty(html))
                 return html;
@@ -291,7 +239,7 @@ namespace TMS.Libraries.EmailSegmenter
         }
 
 
-        public static string StripHTML(string HTML)
+        public static string StripTextFromHTML(string HTML)
         {
 
             HtmlDocument doc = new HtmlDocument();

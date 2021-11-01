@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
+using System.Xml.Serialization;
+using System.IO;
 
+using TMS.Libraries.EmailXMLDataPresentation;
 using TMS.Libraries.OutlookMailWrapper;
 
 namespace TMS.Apps.OutlookMailSegmenter.Test
@@ -74,9 +78,16 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
 
         }
 
+        private EmailsData Data = new EmailsData();
 
         private void btnFetch_Click(object sender, EventArgs e)
         {
+            Outlook.ProcessInParallel = chbProcessInParallel.Checked;
+            Outlook.CheckForIdenticalBodySegments = chbCheckForIdenticalChunks.Checked;
+
+            Outlook.GreedyHeadersProcessing = chbGreedyHeaders.Checked;
+            Outlook.GreedySignaturesProcessing = chbGreedySignatures.Checked;
+            Outlook.GreedyReplaysProcessing = chbGreedyReplays.Checked;
 
             if (_SelectedFolder != null)
             {
@@ -86,6 +97,7 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
                 int to = int.Parse(tbTo.Text) - 1;
 
                 _SelectedFolder.Emails.Clear();
+                Data.Emails.Clear();
 
                 var watch = System.Diagnostics.Stopwatch.StartNew();
 
@@ -94,22 +106,32 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
 
-                lbProgress.Text = string.Format("Done! in {0} sec", Math.Round((double)elapsedMs / 1000, 2));
+                _SelectedFolder
+                    .Emails
+                    .ToList()
+                    .ForEach(e => Data.Emails.Add(new Email(e)));
 
+                Data.Emails = Data.Emails.OrderByDescending(e => e.Header.Date).ToList();
+
+                lbProgress.Text = string.Format("Done! in {0} sec", Math.Round((double)elapsedMs / 1000, 2));
             }
 
         }
 
-
-        private void chbCheckForIdenticalChunks_CheckedChanged_1(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
         {
-            Outlook.CheckForIdenticalChunks = chbCheckForIdenticalChunks.Checked;
-        }
+            SFD.Filter = "XML Files (*.xml)|*.xml";
 
-        private void chbProcessInParallel_CheckedChanged(object sender, EventArgs e)
-        {
-            Outlook.ProcessInParallel = chbProcessInParallel.Checked;
+            if (SFD.ShowDialog(this) == DialogResult.OK)
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(EmailsData));
+                using (TextWriter tw = new StreamWriter(SFD.FileName))
+                {
+                    xs.Serialize(tw, Data);
 
+                    tw.Close();
+                }
+            }
         }
     }
 }

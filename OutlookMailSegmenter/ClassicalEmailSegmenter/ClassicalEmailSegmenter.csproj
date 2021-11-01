@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <RootNamespace>TMS.Libraries.EmailSegmenter</RootNamespace>
-    <AssemblyName>TMS.Libraries.EmailSegmenter</AssemblyName>
+    <RootNamespace>TMS.Libraries.ClassicalEmailSegmenter</RootNamespace>
+    <AssemblyName>TMS.Libraries.ClassicalEmailSegmenter</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

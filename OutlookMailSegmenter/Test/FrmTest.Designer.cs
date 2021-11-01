@@ -44,6 +44,10 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             this.lbConnect = new System.Windows.Forms.Label();
             this.chbProcessInParallel = new System.Windows.Forms.CheckBox();
             this.chbCheckForIdenticalChunks = new System.Windows.Forms.CheckBox();
+            this.chbGreedyHeaders = new System.Windows.Forms.CheckBox();
+            this.chbGreedyReplays = new System.Windows.Forms.CheckBox();
+            this.chbGreedySignatures = new System.Windows.Forms.CheckBox();
+            this.btnSave = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cbDataSource
@@ -139,19 +143,19 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             // 
             // btnFetch
             // 
-            this.btnFetch.Location = new System.Drawing.Point(359, 259);
+            this.btnFetch.Location = new System.Drawing.Point(359, 459);
             this.btnFetch.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnFetch.Name = "btnFetch";
             this.btnFetch.Size = new System.Drawing.Size(88, 27);
             this.btnFetch.TabIndex = 9;
-            this.btnFetch.Text = "Lazzy Fetch..";
+            this.btnFetch.Text = "Fetch..";
             this.btnFetch.UseVisualStyleBackColor = true;
             this.btnFetch.Click += new System.EventHandler(this.btnFetch_Click);
             // 
             // lbProgress
             // 
             this.lbProgress.AutoSize = true;
-            this.lbProgress.Location = new System.Drawing.Point(472, 265);
+            this.lbProgress.Location = new System.Drawing.Point(472, 465);
             this.lbProgress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbProgress.Name = "lbProgress";
             this.lbProgress.Size = new System.Drawing.Size(38, 15);
@@ -172,34 +176,86 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
             this.chbProcessInParallel.AutoSize = true;
             this.chbProcessInParallel.Checked = true;
             this.chbProcessInParallel.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbProcessInParallel.Location = new System.Drawing.Point(359, 349);
+            this.chbProcessInParallel.Location = new System.Drawing.Point(359, 288);
             this.chbProcessInParallel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chbProcessInParallel.Name = "chbProcessInParallel";
             this.chbProcessInParallel.Size = new System.Drawing.Size(120, 19);
             this.chbProcessInParallel.TabIndex = 16;
             this.chbProcessInParallel.Text = "Process in Parallel";
             this.chbProcessInParallel.UseVisualStyleBackColor = true;
-            this.chbProcessInParallel.CheckedChanged += new System.EventHandler(this.chbProcessInParallel_CheckedChanged);
             // 
             // chbCheckForIdenticalChunks
             // 
             this.chbCheckForIdenticalChunks.AutoSize = true;
             this.chbCheckForIdenticalChunks.Checked = true;
             this.chbCheckForIdenticalChunks.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbCheckForIdenticalChunks.Location = new System.Drawing.Point(359, 324);
+            this.chbCheckForIdenticalChunks.Location = new System.Drawing.Point(359, 263);
             this.chbCheckForIdenticalChunks.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chbCheckForIdenticalChunks.Name = "chbCheckForIdenticalChunks";
             this.chbCheckForIdenticalChunks.Size = new System.Drawing.Size(169, 19);
             this.chbCheckForIdenticalChunks.TabIndex = 17;
             this.chbCheckForIdenticalChunks.Text = "Check for Identical chunks.";
             this.chbCheckForIdenticalChunks.UseVisualStyleBackColor = true;
-            this.chbCheckForIdenticalChunks.CheckedChanged += new System.EventHandler(this.chbCheckForIdenticalChunks_CheckedChanged_1);
+            // 
+            // chbGreedyHeaders
+            // 
+            this.chbGreedyHeaders.AutoSize = true;
+            this.chbGreedyHeaders.Checked = true;
+            this.chbGreedyHeaders.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chbGreedyHeaders.Location = new System.Drawing.Point(359, 330);
+            this.chbGreedyHeaders.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.chbGreedyHeaders.Name = "chbGreedyHeaders";
+            this.chbGreedyHeaders.Size = new System.Drawing.Size(172, 19);
+            this.chbGreedyHeaders.TabIndex = 18;
+            this.chbGreedyHeaders.Text = "Greedy Headers Processing ";
+            this.chbGreedyHeaders.UseVisualStyleBackColor = true;
+            // 
+            // chbGreedyReplays
+            // 
+            this.chbGreedyReplays.AutoSize = true;
+            this.chbGreedyReplays.Checked = true;
+            this.chbGreedyReplays.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chbGreedyReplays.Location = new System.Drawing.Point(359, 355);
+            this.chbGreedyReplays.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.chbGreedyReplays.Name = "chbGreedyReplays";
+            this.chbGreedyReplays.Size = new System.Drawing.Size(169, 19);
+            this.chbGreedyReplays.TabIndex = 19;
+            this.chbGreedyReplays.Text = "Greedy Replays Processing ";
+            this.chbGreedyReplays.UseVisualStyleBackColor = true;
+            // 
+            // chbGreedySignatures
+            // 
+            this.chbGreedySignatures.AutoSize = true;
+            this.chbGreedySignatures.Checked = true;
+            this.chbGreedySignatures.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chbGreedySignatures.Location = new System.Drawing.Point(359, 380);
+            this.chbGreedySignatures.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.chbGreedySignatures.Name = "chbGreedySignatures";
+            this.chbGreedySignatures.Size = new System.Drawing.Size(184, 19);
+            this.chbGreedySignatures.TabIndex = 20;
+            this.chbGreedySignatures.Text = "Greedy Signatures Processing ";
+            this.chbGreedySignatures.UseVisualStyleBackColor = true;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(359, 569);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(209, 27);
+            this.btnSave.TabIndex = 21;
+            this.btnSave.Text = "Save to XML file..";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // FrmTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(586, 640);
+            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.chbGreedySignatures);
+            this.Controls.Add(this.chbGreedyReplays);
+            this.Controls.Add(this.chbGreedyHeaders);
             this.Controls.Add(this.chbCheckForIdenticalChunks);
             this.Controls.Add(this.chbProcessInParallel);
             this.Controls.Add(this.lbConnect);
@@ -240,5 +296,9 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
         private System.Windows.Forms.Label lbConnect;
         private System.Windows.Forms.CheckBox chbProcessInParallel;
         private System.Windows.Forms.CheckBox chbCheckForIdenticalChunks;
+        private System.Windows.Forms.CheckBox chbGreedyHeaders;
+        private System.Windows.Forms.CheckBox chbGreedyReplays;
+        private System.Windows.Forms.CheckBox chbGreedySignatures;
+        private System.Windows.Forms.Button btnSave;
     }
 }

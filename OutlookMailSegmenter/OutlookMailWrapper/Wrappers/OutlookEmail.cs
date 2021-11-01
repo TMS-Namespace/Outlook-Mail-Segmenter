@@ -3,11 +3,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using TMS.Libraries.EmailSegmenter;
+using TMS.Libraries.ClassicalEmailSegmenter;
+using TMS.Libraries.OutlookMailWrapper.Helpers;
 
 namespace TMS.Libraries.OutlookMailWrapper
 {
-    public class OutlookEmail : OutlookBase
+    public class OutlookEmail : OutlookBase, IMessage
     {
 
         #region Init
@@ -16,14 +17,8 @@ namespace TMS.Libraries.OutlookMailWrapper
         internal OutlookEmail(OutlookFolder parentFolder, MailItem COMEmail)
         {
             _COMEmail = COMEmail;
-            //ID = Guid.NewGuid();
             Folder = parentFolder;
-
             OutlookEntryID = COMEmail.EntryID;
-            OutlookConversationID = COMEmail.ConversationID;
-            OutlookConversationIndex = COMEmail.ConversationIndex;
-
-            this.AttachmentsCount = COMEmail.Attachments.Count;
 
         }
 
@@ -31,7 +26,7 @@ namespace TMS.Libraries.OutlookMailWrapper
 
         #region Properties
 
-        private Segmenter SegmentedEmail;
+        private Segmenter ClassicalEmailSegmenter;
 
         private HeaderSegmentEx _Header;
         public HeaderSegmentEx Header
@@ -41,7 +36,7 @@ namespace TMS.Libraries.OutlookMailWrapper
                 if (_Header == null)
                 {
 
-                    var subject = new BodySegment(_COMEmail.Subject?.Trim()).Text;
+                    var subject = Shared.FixBadCharacters(_COMEmail.Subject?.Trim());
                     var date = _COMEmail.SentOn.ToUniversalTime();
                     var from = _COMEmail.SenderEmailAddress.Trim();
                     List<string> to = null, cc = null;
@@ -70,7 +65,7 @@ namespace TMS.Libraries.OutlookMailWrapper
                         };
                     }
 
-                    _Header = new HeaderSegmentEx(from, to, cc, date, subject);
+                    _Header = new HeaderSegmentEx(from, to, cc, date, subject, this);
                 }
 
                 return _Header;
@@ -78,49 +73,64 @@ namespace TMS.Libraries.OutlookMailWrapper
             }
         }
 
-        public string OutlookEntryID { get; private set; }
+        public string OutlookConversationID => _COMEmail.ConversationID;
 
-        public string OutlookConversationID { get; private set; }
+        public string OutlookConversationIndex => _COMEmail.ConversationIndex;
 
-        public string OutlookConversationIndex { get; private set; }
-
-        public int AttachmentsCount { get; private set; }
+        public int AttachmentsCount => _COMEmail.Attachments.Count;
 
         public OutlookFolder Folder { get; private set; }
 
-        // Hide this property
-        private OutlookEmail ParentEmail { get; set; }
+        public IEmailPart Parent => null;
 
+
+        private List<ReplaySegmentEx> _Replays;
         public List<ReplaySegmentEx> Replays
         {
             get
             {
-                if (SegmentedEmail == null)
-                    SegmentedEmail = new Segmenter(_COMEmail.HTMLBody);
+                if (_Replays == null)
+                {
+                    if (ClassicalEmailSegmenter == null)
+                        ClassicalEmailSegmenter = new Segmenter(_COMEmail.HTMLBody);
 
-                return SegmentedEmail.Replays.Select(r => new ReplaySegmentEx(r)).ToList();
+                    _Replays = ClassicalEmailSegmenter.Replays.Select(r => new ReplaySegmentEx(r, this)).ToList();
+                }
+
+                return _Replays;
             }
         }
 
+
+        private SignatureSegmentEx _Signature;
         public SignatureSegmentEx Signature
         {
             get
             {
-                if (SegmentedEmail == null)
-                    SegmentedEmail = new Segmenter(_COMEmail.HTMLBody);
+                if (_Signature == null)
+                {
+                    if (ClassicalEmailSegmenter == null)
+                        ClassicalEmailSegmenter = new Segmenter(_COMEmail.HTMLBody);
 
-                return new SignatureSegmentEx(SegmentedEmail.Signature);
+                    _Signature = new SignatureSegmentEx(ClassicalEmailSegmenter.Signature, this);
+                }
+                return _Signature;
             }
         }
 
+
+        private BodySegmentEx _Body;
         public BodySegmentEx Body
         {
             get
             {
-                if (SegmentedEmail == null)
-                    SegmentedEmail = new Segmenter(_COMEmail.HTMLBody);
+                if (ClassicalEmailSegmenter == null)
+                    ClassicalEmailSegmenter = new Segmenter(_COMEmail.HTMLBody);
 
-                return new BodySegmentEx(SegmentedEmail.Body);
+                if (_Body == null)
+                    _Body = new BodySegmentEx(ClassicalEmailSegmenter.Body, this);
+
+                return _Body;
             }
         }
 
@@ -137,7 +147,6 @@ namespace TMS.Libraries.OutlookMailWrapper
             {
                 if (_Conversations == null)
                 {
-
                     _Conversations = new List<OutlookEmail>();
 
                     foreach (object comItem in _COMEmail.GetConversation()?.GetRootItems())
