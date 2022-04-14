@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>TMS.Libraries.EmailSegmentation.Segmentor</AssemblyName>
+    <RootNamespace>TMS.Libraries.EmailSegmentation.Segmentor</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="EngineCore\**" />
+    <EmbeddedResource Remove="EngineCore\**" />
+    <None Remove="EngineCore\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="SegmentedEmailParts\ISegmentedEmailPart.cs" />
+    <Compile Remove="Segments\IEmailSegment.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SegmentationEngineCore\SegmentationEngineCore.csproj" />
+  </ItemGroup>
+
+</Project>

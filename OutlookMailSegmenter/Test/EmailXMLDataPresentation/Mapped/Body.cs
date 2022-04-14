@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-
+using TMS.Libraries.EmailSegmentation.Segmentor.Segments;
 using TMS.Libraries.OutlookMailWrapper;
 
 namespace TMS.Libraries.EmailXMLDataPresentation
@@ -15,7 +15,7 @@ namespace TMS.Libraries.EmailXMLDataPresentation
 
         public Body() { AllEmailParts.Add(this); }
 
-        public Body(BodySegmentEx body) : base(body)
+        public Body(BodySegment body) : base(body)
         {
 
             HTML = body.HTML;

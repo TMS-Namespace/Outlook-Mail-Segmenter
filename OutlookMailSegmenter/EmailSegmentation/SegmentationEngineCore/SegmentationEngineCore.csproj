@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>TMS.Libraries.EmailSegmentation.SegmentationEngineCore</AssemblyName>
+    <RootNamespace>TMS.Libraries.EmailSegmentation.SegmentationEngineCore</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.40" />
+    <PackageReference Include="XPath2" Version="1.1.2" />
+  </ItemGroup>
+
+</Project>

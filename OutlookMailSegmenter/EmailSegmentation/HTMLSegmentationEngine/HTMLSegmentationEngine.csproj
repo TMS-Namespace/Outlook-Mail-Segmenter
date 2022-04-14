@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>TMS.Libraries.EmailSegmentation.HTMLSegmentationEngine</RootNamespace>
+    <AssemblyName>TMS.Libraries.EmailSegmentation.HTMLSegmentationEngine</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Helpers\**" />
+    <Compile Remove="Segments\**" />
+    <EmbeddedResource Remove="Helpers\**" />
+    <EmbeddedResource Remove="Segments\**" />
+    <None Remove="Helpers\**" />
+    <None Remove="Segments\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.40" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SegmentationEngineCore\SegmentationEngineCore.csproj" />
+  </ItemGroup>
+
+</Project>

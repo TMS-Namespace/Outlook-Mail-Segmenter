@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TMS.Libraries.EmailSegmentation.Segmentor.Segments;
 
-namespace TMS.Libraries.EmailXMLDataPresentation
+namespace TMS.Libraries.EmailsSources.XMLPresentation
 {
     [Serializable]
     public class Header : Base
@@ -10,7 +10,7 @@ namespace TMS.Libraries.EmailXMLDataPresentation
 
         #region Init
 
-        public Header() { AllEmailParts.Add(this); }
+        public Header() { EmailsXML.Add(this); }
 
         public Header(HeaderSegment header) : base(header)
         {
@@ -21,7 +21,7 @@ namespace TMS.Libraries.EmailXMLDataPresentation
             CC = header.CC;
             Date = header.Date;
 
-            AllEmailParts.Add(this);
+            EmailsXML.Add(this);
         }
 
         #endregion

@@ -1,11 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using System.IO;
-
-using TMS.Libraries.EmailXMLDataPresentation;
-using TMS.Libraries.OutlookMailWrapper;
+using TMS.Libraries.EmailSegmentation.HTMLSegmentationEngine;
+using TMS.Libraries.EmailSegmentation.Segmentor;
+using TMS.Libraries.EmailsSources.OutlookMailWrapper;
+using TMS.Libraries.EmailsSources.XMLPresentation;
+using static TMS.Libraries.EmailSegmentation.SegmentationEngineCore.Helpers.InfoParsers;
 
 namespace TMS.Apps.OutlookMailSegmenter.Test
 {
@@ -78,16 +80,17 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
 
         }
 
-        private EmailsData Data = new EmailsData();
+        private EmailsXML Data = new EmailsXML();
 
         private void btnFetch_Click(object sender, EventArgs e)
         {
-            Outlook.ProcessInParallel = chbProcessInParallel.Checked;
-            Outlook.CheckForIdenticalBodySegments = chbCheckForIdenticalChunks.Checked;
+            var fct = new Factory();
+            fct.ProcessInParallel = chbProcessInParallel.Checked;
+            fct.CheckForIdenticalBodySegments = chbCheckForIdenticalChunks.Checked;
 
-            Outlook.GreedyHeadersProcessing = chbGreedyHeaders.Checked;
-            Outlook.GreedySignaturesProcessing = chbGreedySignatures.Checked;
-            Outlook.GreedyReplaysProcessing = chbGreedyReplays.Checked;
+            fct.GreedyHeadersProcessing = chbGreedyHeaders.Checked;
+            fct.GreedySignaturesProcessing = chbGreedySignatures.Checked;
+            fct.GreedyReplaysProcessing = chbGreedyReplays.Checked;
 
             if (_SelectedFolder != null)
             {
@@ -106,10 +109,37 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
 
-                _SelectedFolder
-                    .Emails
-                    .ToList()
-                    .ForEach(e => Data.Emails.Add(new Email(e)));
+
+                var eng = new SegmentationEngine();
+                var emails_and_headers = _SelectedFolder.Emails.Select(e =>
+                                                                    (new HeaderInfo()
+                                                                    {
+                                                                        From = e.From,
+                                                                        To = e.To,
+                                                                        CC = e.CC,
+                                                                        Date = e.Date,
+                                                                        Subject = e.Subject
+                                                                    },
+                                                                     e.HTML)).ToList();
+
+                fct.SegmentEmails(emails_and_headers, eng);
+
+
+                for (int i = 0; i < _SelectedFolder.Emails.Count; i++)
+                {
+                    var outml = _SelectedFolder.Emails[i];
+                    Data.Emails.Add(new Email(fct.SegmentedEmails[i],
+                                                    outml.OutlookEntryID,
+                                                    outml.OutlookConversationID,
+                                                    outml.OutlookConversationIndex,
+                                                    outml.AttachmentsCount));
+                }
+
+
+                //_SelectedFolder
+                //    .Emails
+                //    .ToList()
+                //    .ForEach(e => Data.Emails.Add(new Email(e)));
 
                 Data.Emails = Data.Emails.OrderByDescending(e => e.Header.Date).ToList();
 
@@ -124,7 +154,7 @@ namespace TMS.Apps.OutlookMailSegmenter.Test
 
             if (SFD.ShowDialog(this) == DialogResult.OK)
             {
-                XmlSerializer xs = new XmlSerializer(typeof(EmailsData));
+                XmlSerializer xs = new XmlSerializer(typeof(EmailsXML));
                 using (TextWriter tw = new StreamWriter(SFD.FileName))
                 {
                     xs.Serialize(tw, Data);

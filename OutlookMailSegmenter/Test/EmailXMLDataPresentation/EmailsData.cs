@@ -11,11 +11,11 @@ namespace TMS.Libraries.EmailXMLDataPresentation
 
         #region Properties
 
-        [XmlElement]
-        public string FileFormatVersion { get; set; } = "1.2";
+        //[XmlElement]
+        //public string FileFormatVersion { get; set; } = "1.2";
 
-        [XmlElement]
-        public string AppVersion { get; set; } = Assembly.GetEntryAssembly().GetName().Version.ToString();
+        //[XmlElement]
+        //public string AppVersion { get; set; } = Assembly.GetEntryAssembly().GetName().Version.ToString();
 
 
         [XmlArray]

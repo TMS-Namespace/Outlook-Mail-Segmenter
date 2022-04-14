@@ -1,0 +1,82 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{C796427F-35D4-446A-8975-2243676A6921}"
+	ProjectSection(ProjectDependencies) = postProject
+		{95BFBD59-9514-4C62-ABE1-85EDCA0B3B27} = {95BFBD59-9514-4C62-ABE1-85EDCA0B3B27}
+		{C882E172-B4AC-42CF-9717-CF7F5177D062} = {C882E172-B4AC-42CF-9717-CF7F5177D062}
+		{557E21AE-378E-4EB3-8C57-9217994685AB} = {557E21AE-378E-4EB3-8C57-9217994685AB}
+		{2C3CA4B4-1623-49E3-AF79-E906833EFF3E} = {2C3CA4B4-1623-49E3-AF79-E906833EFF3E}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HTMLSegmentationEngine", "EmailSegmentation\HTMLSegmentationEngine\HTMLSegmentationEngine.csproj", "{C882E172-B4AC-42CF-9717-CF7F5177D062}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2C3CA4B4-1623-49E3-AF79-E906833EFF3E} = {2C3CA4B4-1623-49E3-AF79-E906833EFF3E}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Segmentor", "EmailSegmentation\Segmentor\Segmentor.csproj", "{95BFBD59-9514-4C62-ABE1-85EDCA0B3B27}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C882E172-B4AC-42CF-9717-CF7F5177D062} = {C882E172-B4AC-42CF-9717-CF7F5177D062}
+		{2C3CA4B4-1623-49E3-AF79-E906833EFF3E} = {2C3CA4B4-1623-49E3-AF79-E906833EFF3E}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SegmentationEngineCore", "EmailSegmentation\SegmentationEngineCore\SegmentationEngineCore.csproj", "{2C3CA4B4-1623-49E3-AF79-E906833EFF3E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmailSegmentation", "EmailSegmentation", "{F036E641-A12F-4049-8B13-3AFF5A383190}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailXMLPresentation", "EmailsSources\EmailXMLPresentation\EmailXMLPresentation.csproj", "{557E21AE-378E-4EB3-8C57-9217994685AB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{95BFBD59-9514-4C62-ABE1-85EDCA0B3B27} = {95BFBD59-9514-4C62-ABE1-85EDCA0B3B27}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmailsSources", "EmailsSources", "{37DCB8AF-966A-497B-96CB-5AD423FB7C5C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutlookMailWrapper", "EmailsSources\OutlookMailWrapper\OutlookMailWrapper.csproj", "{EF8804B1-33CD-459E-8578-E5E440008208}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C796427F-35D4-446A-8975-2243676A6921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C796427F-35D4-446A-8975-2243676A6921}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C796427F-35D4-446A-8975-2243676A6921}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C796427F-35D4-446A-8975-2243676A6921}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C882E172-B4AC-42CF-9717-CF7F5177D062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C882E172-B4AC-42CF-9717-CF7F5177D062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C882E172-B4AC-42CF-9717-CF7F5177D062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C882E172-B4AC-42CF-9717-CF7F5177D062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95BFBD59-9514-4C62-ABE1-85EDCA0B3B27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95BFBD59-9514-4C62-ABE1-85EDCA0B3B27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95BFBD59-9514-4C62-ABE1-85EDCA0B3B27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95BFBD59-9514-4C62-ABE1-85EDCA0B3B27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C3CA4B4-1623-49E3-AF79-E906833EFF3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C3CA4B4-1623-49E3-AF79-E906833EFF3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C3CA4B4-1623-49E3-AF79-E906833EFF3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C3CA4B4-1623-49E3-AF79-E906833EFF3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{557E21AE-378E-4EB3-8C57-9217994685AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{557E21AE-378E-4EB3-8C57-9217994685AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{557E21AE-378E-4EB3-8C57-9217994685AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{557E21AE-378E-4EB3-8C57-9217994685AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF8804B1-33CD-459E-8578-E5E440008208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF8804B1-33CD-459E-8578-E5E440008208}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF8804B1-33CD-459E-8578-E5E440008208}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF8804B1-33CD-459E-8578-E5E440008208}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C882E172-B4AC-42CF-9717-CF7F5177D062} = {F036E641-A12F-4049-8B13-3AFF5A383190}
+		{95BFBD59-9514-4C62-ABE1-85EDCA0B3B27} = {F036E641-A12F-4049-8B13-3AFF5A383190}
+		{2C3CA4B4-1623-49E3-AF79-E906833EFF3E} = {F036E641-A12F-4049-8B13-3AFF5A383190}
+		{557E21AE-378E-4EB3-8C57-9217994685AB} = {37DCB8AF-966A-497B-96CB-5AD423FB7C5C}
+		{EF8804B1-33CD-459E-8578-E5E440008208} = {37DCB8AF-966A-497B-96CB-5AD423FB7C5C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {63BCE668-C0E8-485A-921F-F762FCF52CE0}
+	EndGlobalSection
+EndGlobal

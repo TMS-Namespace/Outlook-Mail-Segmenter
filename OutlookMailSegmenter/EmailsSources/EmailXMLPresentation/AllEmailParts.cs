@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TMS.Libraries.EmailXMLDataPresentation
+namespace TMS.Libraries.EmailsSources.XMLPresentation
 {
     public static class AllEmailParts
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
-
-using TMS.Libraries.OutlookMailWrapper.Helpers;
+using TMS.Libraries.EmailSegmentation.Segmentor;
+using TMS.Libraries.EmailSegmentation.Segmentor.SegmentedEmailParts;
 
 namespace TMS.Libraries.EmailXMLDataPresentation
 {
@@ -14,11 +14,11 @@ namespace TMS.Libraries.EmailXMLDataPresentation
 
         public Replay() { AllEmailParts.Add(this); }
 
-        public Replay(IMessage replay) : base(replay)
+        public Replay(EmailChunk replay) : base(replay)
         {
-
-            Header = new Header(replay.Header);
-            Signature = (replay.Signature == null) ? null : new Signature(replay.Signature);
+            var rep = replay as SegmentedEmailReplayPart;
+            Header = (rep.Header == null) ? null : new Header(rep.Header);
+            Signature = (rep.Signature == null) ? null : new Signature(rep.Signature);
 
             AllEmailParts.Add(this);
         }

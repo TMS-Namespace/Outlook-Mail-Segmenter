@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using TMS.Libraries.EmailSegmentation.Segmentor;
 
-namespace TMS.Libraries.EmailXMLDataPresentation
+namespace TMS.Libraries.EmailsSources.XMLPresentation
 {
     public class Base
     {
@@ -16,7 +16,7 @@ namespace TMS.Libraries.EmailXMLDataPresentation
             this.Origin = origin;
 
             if (origin.Body != null)
-                this.Body = new Body(origin.Body);
+                this.Body = new BodyContents(origin.Body);
 
             this.ID = origin.ID;
             this.ParentID = origin.Parent?.ID;
@@ -27,15 +27,20 @@ namespace TMS.Libraries.EmailXMLDataPresentation
 
         #region Properties
 
-        private Body _Body ;
-        public Body Body { get {
+        private BodyContents _Body;
+        public virtual BodyContents Body
+        {
+            get
+            {
 
-                if (Origin != null && _Body==null)
-                    _Body = new Body( Origin.Body);
+                if (Origin != null && Origin.Body != null && _Body == null)
+                    _Body = new BodyContents(Origin.Body);
 
                 return _Body;
 
-            } set { _Body = value; } }
+            }
+            set { _Body = value; }
+        }
 
         private Guid _ID;
         public Guid ID
@@ -55,10 +60,10 @@ namespace TMS.Libraries.EmailXMLDataPresentation
         public Guid? ParentID { get; set; }
 
         [XmlIgnore]
-        public Base Parent => AllEmailParts.FindByID(this.ParentID);
+        public Base Parent => EmailsXML.FindByID(this.ParentID);
 
         [XmlIgnore]
-        public EmailChunk Origin { get; set; }
+        public EmailChunk Origin { get; internal set; }
         #endregion
 
     }

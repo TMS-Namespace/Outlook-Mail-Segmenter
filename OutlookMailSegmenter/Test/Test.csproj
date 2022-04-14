@@ -9,7 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OutlookMailWrapper\OutlookMailWrapper.csproj" />
+    <Compile Remove="EmailXMLDataPresentation\**" />
+    <EmbeddedResource Remove="EmailXMLDataPresentation\**" />
+    <None Remove="EmailXMLDataPresentation\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EmailSegmentation\HTMLSegmentationEngine\HTMLSegmentationEngine.csproj" />
+    <ProjectReference Include="..\EmailSegmentation\Segmentor\Segmentor.csproj" />
+    <ProjectReference Include="..\EmailsSources\EmailXMLPresentation\EmailXMLPresentation.csproj" />
+    <ProjectReference Include="..\EmailsSources\OutlookMailWrapper\OutlookMailWrapper.csproj" />
   </ItemGroup>
 
 </Project>

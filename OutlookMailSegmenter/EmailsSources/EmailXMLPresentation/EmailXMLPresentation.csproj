@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>TMS.Libraries.EmailsSources.XMLPresentation</AssemblyName>
+    <RootNamespace>TMS.Libraries.EmailsSources.XMLPresentation</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AllEmailParts.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EmailSegmentation\Segmentor\Segmentor.csproj" />
+  </ItemGroup>
+
+</Project>
